@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>Altinn formidling webservice URI</comment>
+    <entry key="broker.service.external.ec">https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalEC.svc</entry>
+    <entry key="broker.service.external.ec.streamed">https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalECStreamed.svc</entry>
+    <entry key="broker.service.external.ec.receipt">https://tt02.altinn.no/IntermediaryExternal/ReceiptExternalEC.svc</entry>
+    <entry key="correspondence.external.ec">https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC.svc</entry>
+    <entry key="reportee.elementlist.ec">https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC.svc</entry>
+</properties>

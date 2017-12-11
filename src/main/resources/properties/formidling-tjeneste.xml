@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>Angir hvilken formidlingstjeneste og versjon</comment>
+    <entry key="formidling.altinn.externalservicecode">4797</entry>
+    <entry key="formidling.altinn.externalserviceeditioncode">1</entry>
+</properties>

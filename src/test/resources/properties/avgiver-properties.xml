@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>Angir data for avgiver</comment>
+    <entry key="avgiver.entity">810514442</entry>
+    <entry key="avgiver.entityusername">BAREKSTAD OG YTTERVÅG REGNSKAP</entry>
+    <entry key="avgiver.entitypassword">lbKEX9fB</entry>
+    <entry key="avgiver.certificate">COMMFIDES_BAREKSTAD_OG_YTTERVÅG_REGNSKAP.p12</entry>
+    <entry key="avgiver.alias">Authentication certificate</entry>
+    <entry key="avgiver.virksomhetsbruker">antonio</entry>
+    <entry key="avgiver.virksomhetsbrukerpassord">malik101</entry>
+</properties>

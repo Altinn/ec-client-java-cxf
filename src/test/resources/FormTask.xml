@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<melding dataFormatProvider="SERES" dataFormatVersion="34642" dataFormatId="3881">
+  <Innrapportør>
+    <privatperson>
+      <navn>Mr. Altinn</navn>
+      <adresse>
+        <adresse>Dens vei 6</adresse>
+        <postnummer>8347</postnummer>
+        <poststed>Innsia</poststed>
+      </adresse>
+    </privatperson>
+    <organisasjon>
+      <navn>Tornes og Bjerka</navn>
+      <adresse>
+        <adresse>Bygda</adresse>
+        <postnummer>8451</postnummer>
+        <poststed>Yttersia</poststed>
+      </adresse>
+    </organisasjon>
+  </Innrapportør>
+</melding>

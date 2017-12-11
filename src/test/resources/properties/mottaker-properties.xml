@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>Angir data for mottaker</comment>
+    <entry key="mottaker.entity">910514482</entry>
+    <entry key="mottaker.entityusername">LANGESUND OG MÅLØY REGNSKAP</entry>
+    <entry key="mottaker.entitypassword">RMntpNdfHmraBG1r</entry>
+    <entry key="mottaker.certificate">LANGESUND_OG_MÅLØY_REGNSKAP.p12</entry>
+    <entry key="mottaker.alias">langesund</entry>
+    <entry key="mottaker.virksomhetsbruker">LangesundPublic</entry>
+    <entry key="mottaker.virksomhetsbrukerpassord">Langesund1234</entry>
+</properties>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>Logging nivå</comment>
+    <entry key="logging.level.">ERROR</entry>
+    <entry key="logging.level.org.springframework">ERROR</entry>
+    <entry key="logging.level.org.apache.cxf">ERROR</entry>
+    <entry key="logging.level.no.asf.mottak.formidling">DEBUG</entry>
+</properties>
