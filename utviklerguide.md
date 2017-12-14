@@ -17,7 +17,7 @@
 |Reportee|Ved instansiering og opplasting til formidlingstjenesten settes det til avgiver. Ved søking etter tilgjengelige formidlinger settes det til mottaker.|
 |Receipt|Kvittering. Altinn ivaretar kvittering for hver formidling gjennom formidlingstjenesten. Dette gir sporbarhet for både avgiver, mottaker og tjenesteeier. Kvitteringer slettes ikke fra Altinn selv om øvrige formidlingsdata kan være slettet ved at formidling er fullført. Kvitteringene kan oppdateres i ettertid av både avgiver og mottaker.|
 |SRR|Det tjenesteeierstyrte rettighetsregisteret. Dette register kan brukes til å bestemme for hver formidlingstjeneste hvilke enheter angitt ved personnummer/organisasjonsnummer som har lese/skrive (motta/avgi) rettigheter.|
-|payload|Essensen av en formidling bestående av en komprimert datafil som skal formidles fra avgiver til mottaker. Altinn gjør ingen endring eller validering av innholdet i filen utenom en virusskanning.|
+|payload|Essensen av en formidling bestående av en komprimert datafil (zip-fil) som skal formidles fra avgiver til mottaker. Bortsett fra å oppdatere manifestet, gjør Altinn ingen endring eller validering av innholdet i filen utenom en virusskanning.|
 
 ## Innledning
 Dette er dokumentasjon for en Java referanseklient som integrerer med Altinn formidlingstjenesten. Formidlingstjenesten er tilgjengelig som et sett av webservicer. Java klienten har til hensikt å gi et enkelt eksempel på hvordan integrasjon mellom et sluttbrukersystem og Altinn formidlingstjenesten kan gjøres. Siden fokus er på bruk av Altinn webservices søkes det å unngå bruk av tredjeparts bibliotek og rammeverk som ikke er direkte relevant for integrasjonen. Det legges dessuten vekt på å gi informasjon av teknisk karakter som kan være av verdi for en utvikler av sluttbrukersystem som skal integreres mot Altinn sin webservice.
@@ -48,65 +48,7 @@ Nedlastingen er en zip fil som inneholder to jar filer, local_policy.jar og US_e
 ### Enterprise Certificate
 Gitt nivå 3 for sikkerhet er det en forutsetning for tilgang til Altinn formidlingstjenesten at man har et "Enterprise Certificate" for virksomheten. Dette kan for eksempel være utgitt av Commfides eller BuyPass. I dette eksempel er det tatt utgangspunkt i sertifikat på format pkcs12 (file suffix *.p12). 
 
-Med en sertifikatfil og tilhørende passord kan man bruke flere alternative verktøy til å bekrefte at sertifikatet er gyldig. Av spesiell interesse er attributtene *valid from*, *valid to* og *friendly name*. 
-Den sistnevnte attributt må angis som *keystore.alias* i java klienten.
-
-Her er eksempel på kommando med verktøyet openssl (kommer med Cygwin standardinstallasjon):
-
-```
-$ openssl pkcs12 -in COMMFIDES_BAREKSTAD_OG_YTTERVÅG_REGNSKAP.p12 -info
-Enter Import Password:
-MAC Iteration 2048
-MAC verified OK
-PKCS7 Encrypted data: pbeWithSHA1And40BitRC2-CBC, Iteration 2048
-Certificate bag
-Bag Attributes
-    localKeyID: 7B 6A EC 05 86 75 86 D2 39 3B 0B 58 4F 39 5F 16 1C 6B DB 91
-    friendlyName: Authentication certificate
-subject=/CN=BAREKSTAD OG YTTERV\xC3\x85G REGNSKAP/serialNumber=810514442/O=BAREKSTAD OG YTTERV\xC3\x85G REGNSKAP - 810514442/                                   L=Carl Kjelsens vei 20, 0874 Oslo/C=NO
-issuer=/CN=Commfides CPN Enterprise-Norwegian SHA256 CA - TEST/OU=Commfides Trust Environment(C) 2014 Commfides Norge AS - TE                                   ST/OU=CPN Enterprise-Norwegian SHA256 CA- TEST/O=Commfides Norge AS - 988 312 495/C=NO
------BEGIN CERTIFICATE-----
-MIIGWTCCBUGgAwIBAgIIDBHVTZoqbWMwDQYJKoZIhvcNAQELBQAwgfExPDA6BgNV
-BAMTM0NvbW1maWRlcyBDUE4gRW50ZXJwcmlzZS1Ob3J3ZWdpYW4gU0hBMjU2IENB
-IC0gVEVTVDFGMEQGA1UECxM9Q29tbWZpZGVzIFRydXN0IEVudmlyb25tZW50KEMp
-IDIwMTQgQ29tbWZpZGVzIE5vcmdlIEFTIC0gVEVTVDExMC8GA1UECxMoQ1BOIEVu
-dGVycHJpc2UtTm9yd2VnaWFuIFNIQTI1NiBDQS0gVEVTVDEpMCcGA1UEChMgQ29t
-bWZpZGVzIE5vcmdlIEFTIC0gOTg4IDMxMiA0OTUxCzAJBgNVBAYTAk5PMB4XDTE2
-```
-
-Tilsvarende kan man bruke Java keytool (skal finnes på %JAVA_HOME%\bin):
-```
-d:\>keytool -list -keystore TORNES_I_ROMSDAL_OG_BJERKA_REGNSKAP.p12 -storepass test123 -storetype PKCS12 -v
-
-Keystore type: PKCS12
-Keystore provider: SunJSSE
-
-Your keystore contains 1 entry
-
-Alias name: authentication certificate
-Creation date: 15.mar.2017
-Entry type: PrivateKeyEntry
-Certificate chain length: 3
-Certificate[1]:
-Owner: C=NO, L="Berggata 20, 1606 Fredrikstad", O=TORNES I ROMSDAL OG BJERKA REGNSKAP - 910514350, SERIALNUMBER=910514350, CN=TORNES I ROMSDAL OG BJERKA REGNSKAP
-Issuer: C=NO, O=Commfides Norge AS - 988 312 495, OU=CPN Enterprise-Norwegian SHA256 CA- TEST, OU=Commfides Trust Environment(C) 2014 Commfides Norge AS - TEST, CN=Commfides CPN Enterprise-Norwegian SHA256 CA - TEST
-Serial number: 4420af8342a040f2
-Valid from: Thu Oct 20 00:00:00 CEST 2016 until: Wed Oct 20 23:59:59 CEST 2021
-Certificate fingerprints:
-         MD5:  A7:C4:3E:AB:50:E1:F6:30:4D:F4:49:32:CC:72:3B:16
-         SHA1: 2E:14:68:93:A9:F0:26:CA:F0:92:6A:44:C6:36:1C:64:F2:54:72:F0
-```
-
-De to nevnte kommandolinjebaserte verktøy har også muligheter til å omskrive et sertifikat fra en form til en annen eller gjøre visse endringer i sertifikatet. For eksempel sette eller endre attributten *friendly name* (aka. alias):
-```
-keytool -importkeystore -srckeystore C:\Temp\certs\registerenheten.pfx -srcstoretype pkcs12 -srcstorepass test123 -srcalias {31dae1eb-d2e7-4b1c-a29a-478c45db8a20} -destkeystore c:\temp\cert\output.jks -deststoretype jks -deststorepass test123 -destalias bronno
-```
-Vi anbefaler å ikke bruke ÆØÅ i aliasene/filnavnene.
-
-En annen mulighet er å importere sertifikatet på lokal Windows PC ved å høyreklikke på sertifikatfilen og velge *install PFX* og følge *certificate import wizard*. Velg *store location* som *current user* og 
-åpne *Microsoft management console* **mmc**. I mmc velg *File->add/remove snap ins*, *Certificates* og velg *My user account*. Sertifikatet skal nå være å finne under *Personal->Certificates*. Høyreklikk sertifikatet i listen og velg *open* og deretter *details*:
-
-![Certificate details](images/Windows_certificate_details_Capture.jpg)
+Man kan ikke bruke ÆØÅ i aliasene/filnavnene.
 
 ### SoapUI
 Under arbeid med en ny integrasjon mot Altinn formidlingstjenesten kan det være et nyttig første steg å gjøre noen enklere tester for å se at man oppnår kontakt med tjenesten og at den tildelte testbruker har de nødvendige tilganger til den formidlingstjenesten man skal bruke. Til dette formål kan verktøyet [SoapUI](https://www.soapui.org/) brukes. Gratisversjonen av SoapUI er tilstrekkelig i denne sammenheng.
@@ -145,6 +87,14 @@ I tillegg er følgende webservices relevant for å hente ut eller oppdatere kvit
 |ReceiptExternalEC.GetReceiptListV2|Hente alle kvitteringer tilhørende en kvitteringstype og/eller fra et gitt tidsrom|
 |ReceiptExternalEC.UpdateReceipt|Oppdatere en kvittering, for eksempel ved mottak av data fra formidlingstjenesten.|
 
+I tillegg til formidlingstjenester, er klienten utvidet med kall for å hente meldinger (Correspondence) fra Altinn og sende inn innsendingstjenester (skjemaer) til Altinn. Til dette benyttes følgende webservicer.
+|Webservice|Beskrivelse|
+|----------|-----------|
+|ReporteeElementListEC.GetReporteeElementListEC|Henter en liste med elementer fra arbeidsliste og arkiv.|
+|CorrespondenceExternalEC.GetCorrespondenceForEndUserSystemsEC|Hente detaljer for en spesifikk melding|
+|IntermediaryInboundExternalEC.SubmitFormTaskEC|Sende et skjemasett til Altinn|
+
+
 ### WSDL filer
 
 Wsdl for de nevnte tjenester er tilgjengelig på følgende URI:
@@ -152,6 +102,9 @@ Wsdl for de nevnte tjenester er tilgjengelig på følgende URI:
 - https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalEC.svc?wsdl
 - https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalECStreamed.svc?wsdl
 - https://tt02.altinn.no/IntermediaryExternal/ReceiptExternalEC.svc?wsdl
+- https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC.svc
+- https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC.svc
+- https://tt02.altinn.no/IntermediaryExternal/IntermediaryInboundExternalEC.svc
 
 De angitte adresser er til Altinn testmiljø tt02. For produksjon byttes tt02.altinn.no med www.altinn.no.
 
