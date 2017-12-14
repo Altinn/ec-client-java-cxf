@@ -72,6 +72,7 @@ Her er et eksempel på bruk av SoapUI mot Altinn webservice:
 Dokumentet /1/ gir en oversikt over alle Altinn webservices som er tilgjengelige for integrasjon med sluttbrukersystemer. Et subsett av disse webservices er relevante for bruk med Altinn formidlingstjenesten. 
 
 For formidlingstjenesten er det først og fremst webservices som er beskrevet i /1/ avsnitt 6.14:
+
 |Webservice|Beskrivelse|
 |----------|-----------|
 |BrokerServiceExternalEC.InitiateBrokerService|Initialisering av formidlingstjenesten.|
@@ -81,13 +82,15 @@ For formidlingstjenesten er det først og fremst webservices som er beskrevet i 
 |BrokerServiceExternalECStreamed.DownloadFileStreamed|Nedlasting av filer fra formidlingstjenesten.|
 
 I tillegg er følgende webservices relevant for å hente ut eller oppdatere kvittering fra formidlingstjenesten. Beskrevet i /1/ avsnitt 6.4:
+
 |Webservice|Beskrivelse|
 |----------|-----------|
 |ReceiptExternalEC.GetReceiptV2|Hente kvittering fra formidlingtjenesten.|
 |ReceiptExternalEC.GetReceiptListV2|Hente alle kvitteringer tilhørende en kvitteringstype og/eller fra et gitt tidsrom|
 |ReceiptExternalEC.UpdateReceipt|Oppdatere en kvittering, for eksempel ved mottak av data fra formidlingstjenesten.|
 
-I tillegg til formidlingstjenester, er klienten utvidet med kall for å hente meldinger (Correspondence) fra Altinn og sende inn innsendingstjenester (skjemaer) til Altinn. Til dette benyttes følgende webservicer.
+I tillegg til formidlingstjenester, er klienten utvidet med kall for å hente meldinger (Correspondence) fra Altinn og sende inn innsendingstjenester (skjemaer) til Altinn. Til dette benyttes følgende webservicer:
+
 |Webservice|Beskrivelse|
 |----------|-----------|
 |ReporteeElementListEC.GetReporteeElementListEC|Henter en liste med elementer fra arbeidsliste og arkiv.|
