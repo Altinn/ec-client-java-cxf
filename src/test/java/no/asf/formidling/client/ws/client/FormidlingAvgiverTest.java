@@ -1,6 +1,6 @@
 package no.asf.formidling.client.ws.client;
 
-import no.asf.formidling.client.config.ECClientConfig;
+import no.asf.formidling.client.config.EC2ClientConfig;
 import no.asf.formidling.client.vo.SecurityCredentials;
 import no.asf.formidling.client.vo.ServiceCode;
 import no.asf.formidling.client.vo.UploadManifest;
@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.UUID;
@@ -29,13 +30,13 @@ import static org.junit.Assert.fail;
 /**
  * Created by shjellvi on 20.03.2017.
  */
-@ContextConfiguration(classes = {ECClientConfig.class})
+@ContextConfiguration(classes = {EC2ClientConfig.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class FormidlingAvgiverTest {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private BrokerECClient brokerECClient;
+    private BrokerEC2Client brokerEC2Client;
 
     private SecurityCredentials avgiverCredentials;
 
@@ -67,7 +68,7 @@ public class FormidlingAvgiverTest {
 
         serviceCode = new ServiceCode(properties.getProperty("formidling.altinn.externalservicecode"),
                 Integer.parseInt(properties.getProperty("formidling.altinn.externalserviceeditioncode")));
-        brokerECClient = new BrokerECClient(avgiverCredentials, serviceCode);
+        brokerEC2Client = new BrokerEC2Client(avgiverCredentials, serviceCode);
     }
 
     /**
@@ -96,7 +97,7 @@ public class FormidlingAvgiverTest {
             FileDataSource fileDataSource = new FileDataSource(classPathResource.getFile());
             DataHandler dataHandler = new DataHandler(fileDataSource);
 
-            UploadResponse uploadResponse = brokerECClient.uploadFile(uploadManifest, dataHandler);
+            UploadResponse uploadResponse = brokerEC2Client.uploadFile(uploadManifest, org.apache.commons.io.IOUtils.toByteArray(dataHandler.getInputStream()));
 
             assertThat(uploadResponse.getFileReference(), is(notNullValue()));
             log.info("\n\nUploaded file = " + uploadResponse.getFileReference() + "\n\n");

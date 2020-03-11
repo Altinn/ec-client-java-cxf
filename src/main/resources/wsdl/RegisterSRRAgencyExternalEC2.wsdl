@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions name="RegisterSRRAgencyExternalEC2SF" targetNamespace="http://www.altinn.no/services/Register/SRR/2015/06" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.altinn.no/services/Register/SRR/2015/06" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+	<wsp:Policy wsu:Id="CustomBinding_IRegisterSRRAgencyExternalEC2_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy>
+						<sp:TransportToken>
+							<wsp:Policy>
+								<!-- <sp:HttpToken/> -->
+							</wsp:Policy>
+						</sp:TransportToken>
+						<sp:AlgorithmSuite>
+							<wsp:Policy>
+								<sp:Basic256/>
+							</wsp:Policy>
+						</sp:AlgorithmSuite>
+						<sp:Layout>
+							<wsp:Policy>
+								<sp:Strict/>
+							</wsp:Policy>
+						</sp:Layout>
+						<sp:IncludeTimestamp/>
+					</wsp:Policy>
+				</sp:TransportBinding>
+				<sp:EndorsingSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy>
+						<sp:SecureConversationToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+							<wsp:Policy>
+								<mssp:MustNotSendCancel xmlns:mssp="http://schemas.microsoft.com/ws/2005/07/securitypolicy"/>
+								<sp:BootstrapPolicy>
+									<wsp:Policy>
+										<sp:SignedParts>
+											<sp:Body/>
+											<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
+											<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing"/>
+											<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+											<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+											<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing"/>
+											<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+											<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing"/>
+										</sp:SignedParts>
+										<sp:EncryptedParts>
+											<sp:Body/>
+										</sp:EncryptedParts>
+										<sp:TransportBinding>
+											<wsp:Policy>
+												<sp:TransportToken>
+													<wsp:Policy>
+														<!-- <sp:HttpToken/> -->
+													</wsp:Policy>
+												</sp:TransportToken>
+												<sp:AlgorithmSuite>
+													<wsp:Policy>
+														<sp:Basic256/>
+													</wsp:Policy>
+												</sp:AlgorithmSuite>
+												<sp:Layout>
+													<wsp:Policy>
+														<sp:Strict/>
+													</wsp:Policy>
+												</sp:Layout>
+												<sp:IncludeTimestamp/>
+											</wsp:Policy>
+										</sp:TransportBinding>
+										<sp:EndorsingSupportingTokens>
+											<wsp:Policy>
+												<sp:X509Token sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+													<wsp:Policy>
+														<sp:RequireThumbprintReference/>
+														<sp:WssX509V3Token10/>
+													</wsp:Policy>
+												</sp:X509Token>
+												<sp:SignedParts>
+													<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
+												</sp:SignedParts>
+											</wsp:Policy>
+										</sp:EndorsingSupportingTokens>
+										<sp:Wss11>
+											<wsp:Policy>
+												<sp:MustSupportRefThumbprint/>
+											</wsp:Policy>
+										</sp:Wss11>
+										<sp:Trust10>
+											<wsp:Policy>
+												<sp:MustSupportIssuedTokens/>
+												<sp:RequireClientEntropy/>
+												<sp:RequireServerEntropy/>
+											</wsp:Policy>
+										</sp:Trust10>
+									</wsp:Policy>
+								</sp:BootstrapPolicy>
+							</wsp:Policy>
+						</sp:SecureConversationToken>
+					</wsp:Policy>
+				</sp:EndorsingSupportingTokens>
+				<sp:Wss11 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy/>
+				</sp:Wss11>
+				<sp:Trust10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy>
+						<sp:MustSupportIssuedTokens/>
+						<sp:RequireClientEntropy/>
+						<sp:RequireServerEntropy/>
+					</wsp:Policy>
+				</sp:Trust10>
+				<wsaw:UsingAddressing/>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.altinn.no/services/Register/SRR/2015/06/Imports">
+			<xsd:import schemaLocation="https://tt02.altinn.no/RegisterExternal/RegisterSRRAgencyExternalEC2.svc?xsd=xsd0" namespace="http://www.altinn.no/services/2009/10"/>
+			<xsd:import schemaLocation="https://tt02.altinn.no/RegisterExternal/RegisterSRRAgencyExternalEC2.svc?xsd=xsd2" namespace="http://www.altinn.no/services/common/fault/2009/10"/>
+			<xsd:import schemaLocation="https://tt02.altinn.no/RegisterExternal/RegisterSRRAgencyExternalEC2.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+			<xsd:import schemaLocation="https://tt02.altinn.no/RegisterExternal/RegisterSRRAgencyExternalEC2.svc?xsd=xsd3" namespace="http://www.altinn.no/services/Register/SRR/2015/06"/>
+			<xsd:import schemaLocation="https://tt02.altinn.no/RegisterExternal/RegisterSRRAgencyExternalEC2.svc?xsd=xsd4" namespace="http://schemas.altinn.no/services/Register/SRR/2015/06"/>
+			<xsd:import schemaLocation="https://tt02.altinn.no/RegisterExternal/RegisterSRRAgencyExternalEC2.svc?xsd=xsd5" namespace="http://schemas.altinn.no/services/Register/2015/06"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_Test_InputMessage">
+		<wsdl:part name="parameters" element="q1:Test" xmlns:q1="http://www.altinn.no/services/2009/10"/>
+	</wsdl:message>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_Test_OutputMessage">
+		<wsdl:part name="parameters" element="q2:TestResponse" xmlns:q2="http://www.altinn.no/services/2009/10"/>
+	</wsdl:message>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_Test_AltinnFaultFault_FaultMessage">
+		<wsdl:part name="detail" element="q3:AltinnFault" xmlns:q3="http://www.altinn.no/services/common/fault/2009/10"/>
+	</wsdl:message>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_GetRightsEC_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetRightsEC"/>
+	</wsdl:message>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_GetRightsEC_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetRightsECResponse"/>
+	</wsdl:message>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_GetRightsEC_AltinnFaultFault_FaultMessage">
+		<wsdl:part name="detail" element="q4:AltinnFault" xmlns:q4="http://www.altinn.no/services/common/fault/2009/10"/>
+	</wsdl:message>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_AddRightsEC_InputMessage">
+		<wsdl:part name="parameters" element="tns:AddRightsEC"/>
+	</wsdl:message>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_AddRightsEC_OutputMessage">
+		<wsdl:part name="parameters" element="tns:AddRightsECResponse"/>
+	</wsdl:message>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_AddRightsEC_AltinnFaultFault_FaultMessage">
+		<wsdl:part name="detail" element="q5:AltinnFault" xmlns:q5="http://www.altinn.no/services/common/fault/2009/10"/>
+	</wsdl:message>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_DeleteRightsEC_InputMessage">
+		<wsdl:part name="parameters" element="tns:DeleteRightsEC"/>
+	</wsdl:message>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_DeleteRightsEC_OutputMessage">
+		<wsdl:part name="parameters" element="tns:DeleteRightsECResponse"/>
+	</wsdl:message>
+	<wsdl:message name="IRegisterSRRAgencyExternalEC2_DeleteRightsEC_AltinnFaultFault_FaultMessage">
+		<wsdl:part name="detail" element="q6:AltinnFault" xmlns:q6="http://www.altinn.no/services/common/fault/2009/10"/>
+	</wsdl:message>
+	<wsdl:portType name="IRegisterSRRAgencyExternalEC2">
+		<wsdl:documentation>&lt;summary&gt;
+			Service contract for the Register SRR Agency External service for EC client.
+			It uses X509 Certificate binding.
+			&lt;/summary&gt;</wsdl:documentation>
+		<wsdl:operation name="Test">
+			<wsdl:input wsaw:Action="http://www.altinn.no/services/2009/10/IAltinnContractBase/Test" message="tns:IRegisterSRRAgencyExternalEC2_Test_InputMessage"/>
+			<wsdl:output wsaw:Action="http://www.altinn.no/services/2009/10/IAltinnContractBase/TestResponse" message="tns:IRegisterSRRAgencyExternalEC2_Test_OutputMessage"/>
+			<wsdl:fault wsaw:Action="http://www.altinn.no/services/2009/10/IAltinnContractBase/TestAltinnFaultFault" name="AltinnFaultFault" message="tns:IRegisterSRRAgencyExternalEC2_Test_AltinnFaultFault_FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetRightsEC">
+			<wsdl:documentation>&lt;summary&gt;
+				This method calls an internal method which
+				returns rights for a service saved in register database in
+				Service Rights Registry table for the Service code
+				and Service Edition Code passed on as inputs.
+				&lt;/summary&gt;
+				&lt;param name="systemUserName"&gt;
+				The UserName for the calling system.
+				&lt;/param&gt;
+				&lt;param name="systemPassword"&gt;
+				The password used to authenticate the calling system.
+				&lt;/param&gt;
+				&lt;param name="serviceCode"&gt;
+				External Service Code of the Service.
+				&lt;/param&gt;
+				&lt;param name="serviceEditionCode"&gt;
+				External Service Edition Code of the Service.
+				&lt;/param&gt;
+				&lt;param name="reportee"&gt;
+				Optional reportee, If we want to know right for a reportee for a service.
+				&lt;/param&gt;
+				&lt;returns&gt;
+				Returns a list of rights with Reportee for
+				a service using the input parameters.
+				&lt;/returns&gt;</wsdl:documentation>
+			<wsdl:input wsaw:Action="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/GetRightsEC" message="tns:IRegisterSRRAgencyExternalEC2_GetRightsEC_InputMessage"/>
+			<wsdl:output wsaw:Action="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/GetRightsECResponse" message="tns:IRegisterSRRAgencyExternalEC2_GetRightsEC_OutputMessage"/>
+			<wsdl:fault wsaw:Action="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/GetRightsECAltinnFaultFault" name="AltinnFaultFault" message="tns:IRegisterSRRAgencyExternalEC2_GetRightsEC_AltinnFaultFault_FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="AddRightsEC">
+			<wsdl:documentation>&lt;summary&gt;
+				This method calls an internal method which in turn
+				adds new rights for a service to the Service Rights Registry table.
+				&lt;/summary&gt;
+				&lt;param name="systemUserName"&gt;
+				The UserName for the calling system.
+				&lt;/param&gt;
+				&lt;param name="systemPassword"&gt;
+				The password used to authenticate the calling system.
+				&lt;/param&gt;
+				&lt;param name="serviceCode"&gt;
+				External Service Code of the Service for which rights are being added.
+				&lt;/param&gt;
+				&lt;param name="serviceEditionCode"&gt;
+				External Service Edition Code of the Service for which rights are being added.
+				&lt;/param&gt;
+				&lt;param name="insertRightList"&gt;
+				Rights to be added into the register.
+				&lt;/param&gt;
+				&lt;returns&gt;
+				Returns the same list back with result of each of the operation.
+				&lt;/returns&gt;</wsdl:documentation>
+			<wsdl:input wsaw:Action="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/AddRightsEC" message="tns:IRegisterSRRAgencyExternalEC2_AddRightsEC_InputMessage"/>
+			<wsdl:output wsaw:Action="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/AddRightsECResponse" message="tns:IRegisterSRRAgencyExternalEC2_AddRightsEC_OutputMessage"/>
+			<wsdl:fault wsaw:Action="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/AddRightsECAltinnFaultFault" name="AltinnFaultFault" message="tns:IRegisterSRRAgencyExternalEC2_AddRightsEC_AltinnFaultFault_FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteRightsEC">
+			<wsdl:documentation>&lt;summary&gt;
+				This external method  calls an internal method which
+				deletes existing rights for a service from the Service Rights Registry table.
+				&lt;/summary&gt;
+				&lt;param name="systemUserName"&gt;
+				The UserName for the calling system.
+				&lt;/param&gt;
+				&lt;param name="systemPassword"&gt;
+				The password used to authenticate the calling system.
+				&lt;/param&gt;
+				&lt;param name="serviceCode"&gt;
+				External Service Code of the Service for which rights are being deleted.
+				&lt;/param&gt;
+				&lt;param name="serviceEditionCode"&gt;
+				External Service Edition Code of the Service for which rights are being deleted.
+				&lt;/param&gt;
+				&lt;param name="deleteRightList"&gt;
+				Rights to be deleted from the register.
+				&lt;/param&gt;
+				&lt;returns&gt;
+				Returns the same list back with result of each of the operation.
+				&lt;/returns&gt;</wsdl:documentation>
+			<wsdl:input wsaw:Action="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/DeleteRightsEC" message="tns:IRegisterSRRAgencyExternalEC2_DeleteRightsEC_InputMessage"/>
+			<wsdl:output wsaw:Action="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/DeleteRightsECResponse" message="tns:IRegisterSRRAgencyExternalEC2_DeleteRightsEC_OutputMessage"/>
+			<wsdl:fault wsaw:Action="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/DeleteRightsECAltinnFaultFault" name="AltinnFaultFault" message="tns:IRegisterSRRAgencyExternalEC2_DeleteRightsEC_AltinnFaultFault_FaultMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CustomBinding_IRegisterSRRAgencyExternalEC2" type="tns:IRegisterSRRAgencyExternalEC2">
+		<wsp:PolicyReference URI="#CustomBinding_IRegisterSRRAgencyExternalEC2_policy"/>
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="Test">
+			<soap12:operation soapAction="http://www.altinn.no/services/2009/10/IAltinnContractBase/Test" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="AltinnFaultFault">
+				<soap12:fault name="AltinnFaultFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetRightsEC">
+			<soap12:operation soapAction="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/GetRightsEC" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="AltinnFaultFault">
+				<soap12:fault name="AltinnFaultFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="AddRightsEC">
+			<soap12:operation soapAction="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/AddRightsEC" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="AltinnFaultFault">
+				<soap12:fault name="AltinnFaultFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteRightsEC">
+			<soap12:operation soapAction="http://www.altinn.no/services/Register/SRR/2015/06/IRegisterSRRAgencyExternalEC/DeleteRightsEC" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="AltinnFaultFault">
+				<soap12:fault name="AltinnFaultFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="RegisterSRRAgencyExternalEC2SF">
+		<wsdl:port name="CustomBinding_IRegisterSRRAgencyExternalEC2" binding="tns:CustomBinding_IRegisterSRRAgencyExternalEC2">
+			<soap12:address location="https://tt02.altinn.no/RegisterExternal/RegisterSRRAgencyExternalEC2.svc"/>
+			<wsa10:EndpointReference>
+				<wsa10:Address>https://tt02.altinn.no/RegisterExternal/RegisterSRRAgencyExternalEC2.svc</wsa10:Address>
+			</wsa10:EndpointReference>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

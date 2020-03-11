@@ -2,7 +2,7 @@ package no.asf.formidling.client.ws.client;
 
 import no.altinn.correspondenceexternalec.CorrespondenceForEndUserSystemV2;
 import no.altinn.reporteeelementlistec.*;
-import no.asf.formidling.client.config.ECClientConfig;
+import no.asf.formidling.client.config.EC2ClientConfig;
 import no.asf.formidling.client.util.DateConverter;
 import no.asf.formidling.client.vo.SecurityCredentials;
 import org.junit.Before;
@@ -25,15 +25,15 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
-@ContextConfiguration(classes = {ECClientConfig.class})
+@ContextConfiguration(classes = {EC2ClientConfig.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CorrespondenceTest {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private ReporteeElementListECClient reporteeElementListECClient;
+    private ReporteeElementListEC2Client reporteeElementListEC2Client;
 
-    private CorrespondenceECClient correspondenceECClient;
+    private CorrespondenceEC2Client correspondenceEC2Client;
 
     private SecurityCredentials avgiverCredentials;
 
@@ -57,8 +57,8 @@ public class CorrespondenceTest {
                 properties.getProperty("avgiver.entitypassword"),
                 properties.getProperty("avgiver.alias"));
 
-        reporteeElementListECClient = new ReporteeElementListECClient(avgiverCredentials);
-        correspondenceECClient = new CorrespondenceECClient(avgiverCredentials);
+        reporteeElementListEC2Client = new ReporteeElementListEC2Client(avgiverCredentials);
+        correspondenceEC2Client = new CorrespondenceEC2Client(avgiverCredentials);
     }
 
     @Test
@@ -69,12 +69,12 @@ public class CorrespondenceTest {
         Date fromDate = dateformat.parse("06/09/2017");
         String reportee = "810514442";
 
-        List<ReporteeElementBEV2> reporteeElementBEV2List = reporteeElementListECClient.getReporteeElementListEC(reportee,
+        List<ReporteeElementBEV2> reporteeElementBEV2List = reporteeElementListEC2Client.getReporteeElementListEC2(reportee,
                 DateConverter.convertToXMLGregorianCalendar(fromDate), DateConverter.convertToXMLGregorianCalendar(toDate), LANGUAGEID_NB).getReporteeElementBEV2();
 
         for(ReporteeElementBEV2 elementBEV2 : reporteeElementBEV2List) {
             if(elementBEV2.getReporteeElementType().value().equals("Correspondence")) {
-                CorrespondenceForEndUserSystemV2 correspondenceForEndUserSystemV2 = correspondenceECClient.getCorrespondenceForEndUserSystemsEC(elementBEV2.getReporteeElementId(), LANGUAGEID_NB);
+                CorrespondenceForEndUserSystemV2 correspondenceForEndUserSystemV2 = correspondenceEC2Client.getCorrespondenceForEndUserSystemsEC(elementBEV2.getReporteeElementId(), LANGUAGEID_NB);
                 assertThat(correspondenceForEndUserSystemV2.getCorrespondence().getValue(), is(notNullValue()));
             }
         }

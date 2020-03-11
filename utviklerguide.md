@@ -224,9 +224,9 @@ Klassen **FormidlingMottakerTest** tester alle stegene beskrevet ovenfor som utf
 Klassen **ReceiptECTest** tester kvitteringstjenestene for avgiver. Den bruker en fast kvitteringsid i testen og det burde virke ok ettersom kvitteringer i Altinn ikke slettes.
 
 #### Konfigurasjon
-Klassen **ECClientConfig** i pakken no.asf.formidling.client.config brukes som spring *ContextConfiguration*. Det betyr at den setter opp **spring context** ved oppstart av testene. Dette er angitt i toppen av testklassene med annotation:
+Klassen **EC2ClientConfig** i pakken no.asf.formidling.client.config brukes som spring *ContextConfiguration*. Det betyr at den setter opp **spring context** ved oppstart av testene. Dette er angitt i toppen av testklassene med annotation:
 ```
-@ContextConfiguration(classes = {ECClientConfig.class})
+@ContextConfiguration(classes = {EC2ClientConfig.class})
 ```
 Alternativt kan tradisjonell xml basert spring konfigurasjon brukes (cxf.xml).
 
@@ -246,7 +246,7 @@ En viktig del av spring konfigurasjon er instansiering av **Bus** hvor det sette
 - HeaderInterceptor, setter attributten *Connection* til verdi *Keep-Alive* i header på utgående melding til webservice.
 - BadContextTokenInFaultInterceptor, håndterer feilmelding fra webservice av type *BadContextToken* og prøver rette opp.
 
-I tillegg setter ECClientConfig opp *Bus* med logging av alle webserice meldinger (LoggingFeature prettyLogging=true). Følgende er et utsnitt fra loggen ved kjøring av test som viser at interceptors har lagt til headers attributtene *Connection Keep-Alive* og *Cookie*:
+I tillegg setter EC2ClientConfig opp *Bus* med logging av alle webserice meldinger (LoggingFeature prettyLogging=true). Følgende er et utsnitt fra loggen ved kjøring av test som viser at interceptors har lagt til headers attributtene *Connection Keep-Alive* og *Cookie*:
 ```
 ID: 3
 Address: https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalECStreamed.svc

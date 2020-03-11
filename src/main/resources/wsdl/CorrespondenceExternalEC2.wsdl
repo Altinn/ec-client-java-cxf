@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions name="CorrespondenceExternalEC2SF" targetNamespace="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+    <wsp:Policy wsu:Id="CustomBinding_ICorrespondenceExternalEC2_policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:TransportToken>
+                            <wsp:Policy>
+                                <!-- <sp:HttpToken/> -->
+                            </wsp:Policy>
+                        </sp:TransportToken>
+                        <sp:AlgorithmSuite>
+                            <wsp:Policy>
+                                <sp:Basic256/>
+                            </wsp:Policy>
+                        </sp:AlgorithmSuite>
+                        <sp:Layout>
+                            <wsp:Policy>
+                                <sp:Strict/>
+                            </wsp:Policy>
+                        </sp:Layout>
+                        <sp:IncludeTimestamp/>
+                    </wsp:Policy>
+                </sp:TransportBinding>
+                <sp:EndorsingSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:SecureConversationToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                            <wsp:Policy>
+                                <mssp:MustNotSendCancel xmlns:mssp="http://schemas.microsoft.com/ws/2005/07/securitypolicy"/>
+                                <sp:BootstrapPolicy>
+                                    <wsp:Policy>
+                                        <sp:SignedParts>
+                                            <sp:Body/>
+                                            <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                        </sp:SignedParts>
+                                        <sp:EncryptedParts>
+                                            <sp:Body/>
+                                        </sp:EncryptedParts>
+                                        <sp:TransportBinding>
+                                            <wsp:Policy>
+                                                <sp:TransportToken>
+                                                    <wsp:Policy>
+                                                        <!-- <sp:HttpToken/> -->
+                                                    </wsp:Policy>
+                                                </sp:TransportToken>
+                                                <sp:AlgorithmSuite>
+                                                    <wsp:Policy>
+                                                        <sp:Basic256/>
+                                                    </wsp:Policy>
+                                                </sp:AlgorithmSuite>
+                                                <sp:Layout>
+                                                    <wsp:Policy>
+                                                        <sp:Strict/>
+                                                    </wsp:Policy>
+                                                </sp:Layout>
+                                                <sp:IncludeTimestamp/>
+                                            </wsp:Policy>
+                                        </sp:TransportBinding>
+                                        <sp:EndorsingSupportingTokens>
+                                            <wsp:Policy>
+                                                <sp:X509Token sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                                                    <wsp:Policy>
+                                                        <sp:RequireThumbprintReference/>
+                                                        <sp:WssX509V3Token10/>
+                                                    </wsp:Policy>
+                                                </sp:X509Token>
+                                                <sp:SignedParts>
+                                                    <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                                </sp:SignedParts>
+                                            </wsp:Policy>
+                                        </sp:EndorsingSupportingTokens>
+                                        <sp:Wss11>
+                                            <wsp:Policy>
+                                                <sp:MustSupportRefThumbprint/>
+                                            </wsp:Policy>
+                                        </sp:Wss11>
+                                        <sp:Trust10>
+                                            <wsp:Policy>
+                                                <sp:MustSupportIssuedTokens/>
+                                                <sp:RequireClientEntropy/>
+                                                <sp:RequireServerEntropy/>
+                                            </wsp:Policy>
+                                        </sp:Trust10>
+                                    </wsp:Policy>
+                                </sp:BootstrapPolicy>
+                            </wsp:Policy>
+                        </sp:SecureConversationToken>
+                    </wsp:Policy>
+                </sp:EndorsingSupportingTokens>
+                <sp:Wss11 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy/>
+                </sp:Wss11>
+                <sp:Trust10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:MustSupportIssuedTokens/>
+                        <sp:RequireClientEntropy/>
+                        <sp:RequireServerEntropy/>
+                    </wsp:Policy>
+                </sp:Trust10>
+                <wsaw:UsingAddressing/>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/Imports">
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd0" namespace="http://www.altinn.no/services/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd2" namespace="http://www.altinn.no/services/common/fault/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd3" namespace="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd4" namespace="http://schemas.altinn.no/services/Intermediary/Receipt/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd5" namespace="http://schemas.altinn.no/services/Intermediary/Shipment/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd6" namespace="http://schemas.altinn.no/services/ServiceEngine/Correspondence/2010/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd7" namespace="http://schemas.altinn.no/services/serviceEntity/2010/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd8" namespace="http://schemas.altinn.no/ServiceDevelopment/Service/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd9" namespace="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd10" namespace="http://schemas.altinn.no/services/ServiceEngine/Subscription/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd11" namespace="http://schemas.altinn.no/services/serviceEntity/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd12" namespace="http://schemas.altinn.no/services/ServiceEngine/Correspondence/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd13" namespace="http://schemas.altinn.no/services/ServiceEngine/Notification/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?xsd=xsd14" namespace="http://schemas.altinn.no/serviceengine/formsengine/2009/10"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="ICorrespondenceExternalEC2_Test_InputMessage">
+        <wsdl:part name="parameters" element="q1:Test" xmlns:q1="http://www.altinn.no/services/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="ICorrespondenceExternalEC2_Test_OutputMessage">
+        <wsdl:part name="parameters" element="q2:TestResponse" xmlns:q2="http://www.altinn.no/services/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="ICorrespondenceExternalEC2_Test_AltinnFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q3:AltinnFault" xmlns:q3="http://www.altinn.no/services/common/fault/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="ICorrespondenceExternalEC2_ArchiveCorrespondenceForEndUserSystemEC_InputMessage">
+        <wsdl:part name="parameters" element="tns:ArchiveCorrespondenceForEndUserSystemEC"/>
+    </wsdl:message>
+    <wsdl:message name="ICorrespondenceExternalEC2_ArchiveCorrespondenceForEndUserSystemEC_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ArchiveCorrespondenceForEndUserSystemECResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ICorrespondenceExternalEC2_ArchiveCorrespondenceForEndUserSystemEC_AltinnFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q4:AltinnFault" xmlns:q4="http://www.altinn.no/services/common/fault/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="ICorrespondenceExternalEC2_GetCorrespondenceForEndUserSystemsEC_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetCorrespondenceForEndUserSystemsEC"/>
+    </wsdl:message>
+    <wsdl:message name="ICorrespondenceExternalEC2_GetCorrespondenceForEndUserSystemsEC_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetCorrespondenceForEndUserSystemsECResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ICorrespondenceExternalEC2_GetCorrespondenceForEndUserSystemsEC_AltinnFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q5:AltinnFault" xmlns:q5="http://www.altinn.no/services/common/fault/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="ICorrespondenceExternalEC2_SaveCorrespondenceConfirmationEC_InputMessage">
+        <wsdl:part name="parameters" element="tns:SaveCorrespondenceConfirmationEC"/>
+    </wsdl:message>
+    <wsdl:message name="ICorrespondenceExternalEC2_SaveCorrespondenceConfirmationEC_OutputMessage">
+        <wsdl:part name="parameters" element="tns:SaveCorrespondenceConfirmationECResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ICorrespondenceExternalEC2_SaveCorrespondenceConfirmationEC_AltinnFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q6:AltinnFault" xmlns:q6="http://www.altinn.no/services/common/fault/2009/10"/>
+    </wsdl:message>
+    <wsdl:portType name="ICorrespondenceExternalEC2">
+        <wsdl:documentation>&lt;summary&gt;
+            Service contract for Correspondence with certificates. Used for end user systems to get handle correspondences.
+            &lt;/summary&gt;</wsdl:documentation>
+        <wsdl:operation name="Test">
+            <wsdl:input wsaw:Action="http://www.altinn.no/services/2009/10/IAltinnContractBase/Test" message="tns:ICorrespondenceExternalEC2_Test_InputMessage"/>
+            <wsdl:output wsaw:Action="http://www.altinn.no/services/2009/10/IAltinnContractBase/TestResponse" message="tns:ICorrespondenceExternalEC2_Test_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://www.altinn.no/services/2009/10/IAltinnContractBase/TestAltinnFaultFault" name="AltinnFaultFault" message="tns:ICorrespondenceExternalEC2_Test_AltinnFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ArchiveCorrespondenceForEndUserSystemEC">
+            <wsdl:documentation>&lt;summary&gt;
+                Operation for archiving a correspondence.
+                &lt;/summary&gt;
+                &lt;param name="userName"&gt;
+                User name is the relevant user name for the enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="password"&gt;
+                System password is the password for the corresponding enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="reporteeElementID"&gt;
+                Identifier for the correspondence to archive - mandatory parameter
+                &lt;/param&gt;
+                &lt;returns&gt;
+                A receipt entity with reference information for the archived correspondence
+                &lt;/returns&gt;</wsdl:documentation>
+            <wsdl:input wsaw:Action="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/ArchiveCorrespondenceForEndUserSystemEC" message="tns:ICorrespondenceExternalEC2_ArchiveCorrespondenceForEndUserSystemEC_InputMessage"/>
+            <wsdl:output wsaw:Action="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/ArchiveCorrespondenceForEndUserSystemECResponse" message="tns:ICorrespondenceExternalEC2_ArchiveCorrespondenceForEndUserSystemEC_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/ArchiveCorrespondenceForEndUserSystemECAltinnFaultFault" name="AltinnFaultFault" message="tns:ICorrespondenceExternalEC2_ArchiveCorrespondenceForEndUserSystemEC_AltinnFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetCorrespondenceForEndUserSystemsEC">
+            <wsdl:documentation>&lt;summary&gt;
+                Operation for returning a correspondence, its attachments, its notifications and links to EndUserSystems.
+                &lt;/summary&gt;
+                &lt;param name="userName"&gt;
+                User name is the relevant user name for the enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="password"&gt;
+                System password is the password for the corresponding enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="reporteeElementID"&gt;
+                Identifier for the correspondence to get - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="languageID"&gt;
+                Localization Language (English 1033, Bokmål 1044, Nynorsk 2068) - mandatory parameter
+                &lt;/param&gt;
+                &lt;returns&gt;
+                Entity containing the correspondence, its attachments, notifications and links if any.
+                &lt;/returns&gt;</wsdl:documentation>
+            <wsdl:input wsaw:Action="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/GetCorrespondenceForEndUserSystemsEC" message="tns:ICorrespondenceExternalEC2_GetCorrespondenceForEndUserSystemsEC_InputMessage"/>
+            <wsdl:output wsaw:Action="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/GetCorrespondenceForEndUserSystemsECResponse" message="tns:ICorrespondenceExternalEC2_GetCorrespondenceForEndUserSystemsEC_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/GetCorrespondenceForEndUserSystemsECAltinnFaultFault" name="AltinnFaultFault" message="tns:ICorrespondenceExternalEC2_GetCorrespondenceForEndUserSystemsEC_AltinnFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="SaveCorrespondenceConfirmationEC">
+            <wsdl:documentation>&lt;summary&gt;
+                Operation for setting a correspondence as confirmed.
+                &lt;/summary&gt;
+                &lt;param name="userName"&gt;
+                User name is the relevant user name for the enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="password"&gt;
+                System password is the password for the corresponding enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="reporteeElementID"&gt;
+                Identifier for the correspondence to confirm - mandatory parameter
+                &lt;/param&gt;</wsdl:documentation>
+            <wsdl:input wsaw:Action="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/SaveCorrespondenceConfirmationEC" message="tns:ICorrespondenceExternalEC2_SaveCorrespondenceConfirmationEC_InputMessage"/>
+            <wsdl:output wsaw:Action="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/SaveCorrespondenceConfirmationECResponse" message="tns:ICorrespondenceExternalEC2_SaveCorrespondenceConfirmationEC_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/SaveCorrespondenceConfirmationECAltinnFaultFault" name="AltinnFaultFault" message="tns:ICorrespondenceExternalEC2_SaveCorrespondenceConfirmationEC_AltinnFaultFault_FaultMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CustomBinding_ICorrespondenceExternalEC2" type="tns:ICorrespondenceExternalEC2">
+        <wsp:PolicyReference URI="#CustomBinding_ICorrespondenceExternalEC2_policy"/>
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="Test">
+            <soap12:operation soapAction="http://www.altinn.no/services/2009/10/IAltinnContractBase/Test" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AltinnFaultFault">
+                <soap12:fault name="AltinnFaultFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="ArchiveCorrespondenceForEndUserSystemEC">
+            <soap12:operation soapAction="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/ArchiveCorrespondenceForEndUserSystemEC" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AltinnFaultFault">
+                <soap12:fault name="AltinnFaultFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetCorrespondenceForEndUserSystemsEC">
+            <soap12:operation soapAction="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/GetCorrespondenceForEndUserSystemsEC" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AltinnFaultFault">
+                <soap12:fault name="AltinnFaultFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="SaveCorrespondenceConfirmationEC">
+            <soap12:operation soapAction="http://www.altinn.no/services/ServiceEngine/Correspondence/2010/10/ICorrespondenceExternalEC/SaveCorrespondenceConfirmationEC" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AltinnFaultFault">
+                <soap12:fault name="AltinnFaultFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="CorrespondenceExternalEC2SF">
+        <wsdl:port name="CustomBinding_ICorrespondenceExternalEC2" binding="tns:CustomBinding_ICorrespondenceExternalEC2">
+            <soap12:address location="https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc"/>
+            <wsa10:EndpointReference>
+                <wsa10:Address>https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc</wsa10:Address>
+            </wsa10:EndpointReference>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

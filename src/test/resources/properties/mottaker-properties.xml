@@ -2,11 +2,12 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
     <comment>Angir data for mottaker</comment>
-    <entry key="mottaker.entity">910514482</entry>
-    <entry key="mottaker.entityusername">LANGESUND OG MÅLØY REGNSKAP</entry>
-    <entry key="mottaker.entitypassword">RMntpNdfHmraBG1r</entry>
-    <entry key="mottaker.certificate">LANGESUND_OG_MÅLØY_REGNSKAP.p12</entry>
-    <entry key="mottaker.alias">langesund</entry>
-    <entry key="mottaker.virksomhetsbruker">LangesundPublic</entry>
-    <entry key="mottaker.virksomhetsbrukerpassord">Langesund1234</entry>
+    <entry key="mottaker.entity">910514318</entry>
+    <entry key="mottaker.entityusername">KYSTBASEN ÅGOTNES OG ILSENG REGNSKAP</entry>
+    <entry key="mottaker.entitypassword">Uh9N32hHFzKfTEcx</entry>
+    <entry key="mottaker.certificate">Buypass_ID-KYSTBASEN_ÅGOTNES_OG_ILSENG_REGNSKAP.p12</entry>
+    <entry key="mottaker.alias">KYSTBASEN ÅGOTNES OG ILSENG REGNSKAP</entry>
+    <entry key="mottaker.virksomhetsbruker">kystbasentest5</entry>
+    <entry key="mottaker.virksomhetsbrukerpassord">test123</entry>
 </properties>
+

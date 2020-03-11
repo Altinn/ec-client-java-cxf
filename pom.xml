@@ -14,7 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <cxf.version>3.1.10</cxf.version>
+        <cxf.version>3.3.5</cxf.version>
         <spring.version>4.3.7.RELEASE</spring.version>
         <spring-ws.version>2.2.2.RELEASE</spring-ws.version>
     </properties>
@@ -109,56 +109,56 @@
                         <configuration>
                             <wsdlOptions>
                                 <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/wsdl/BrokerServiceExternalEC.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/wsdl/BrokerServiceExternalEC2.wsdl</wsdl>
                                     <extraargs>
                                         <extraarg>-p</extraarg>
                                         <extraarg>no.altinn.brokerserviceexternalec</extraarg>
                                     </extraargs>
-                                    <wsdlLocation>/wsdl/BrokerServiceExternalEC.wsdl</wsdlLocation>
+                                    <wsdlLocation>/wsdl/BrokerServiceExternalEC2.wsdl</wsdlLocation>
                                 </wsdlOption>
                                 <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/wsdl/BrokerServiceExternalECStreamed.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/wsdl/BrokerServiceExternalEC2Streamed.wsdl</wsdl>
                                     <extraargs>
                                         <extraarg>-p</extraarg>
                                         <extraarg>no.altinn.brokerserviceexternalecstreamed</extraarg>
                                     </extraargs>
-                                    <wsdlLocation>/wsdl/BrokerServiceExternalECStreamed.wsdl</wsdlLocation>
+                                    <wsdlLocation>/wsdl/BrokerServiceExternalEC2Streamed.wsdl</wsdlLocation>
                                 </wsdlOption>
                                 <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/wsdl/ReceiptExternalEC.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/wsdl/ReceiptExternalEC2Single.wsdl</wsdl>
                                     <extraargs>
                                         <extraarg>-autoNameResolution</extraarg>
                                         <extraarg>-p</extraarg>
                                         <extraarg>no.altinn.receiptexternalec</extraarg>
                                     </extraargs>
-                                    <wsdlLocation>/wsdl/ReceiptExternalEC.wsdl</wsdlLocation>
+                                    <wsdlLocation>/wsdl/ReceiptExternalEC2Single.wsdl</wsdlLocation>
                                 </wsdlOption>
                                 <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/wsdl/CorrespondenceExternalEC.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/wsdl/CorrespondenceExternalEC2.wsdl</wsdl>
                                     <extraargs>
                                         <extraarg>-autoNameResolution</extraarg>
                                         <extraarg>-p</extraarg>
                                         <extraarg>no.altinn.correspondenceexternalec</extraarg>
                                     </extraargs>
-                                    <wsdlLocation>/wsdl/CorrespondenceExternalEC.wsdl</wsdlLocation>
+                                    <wsdlLocation>/wsdl/CorrespondenceExternalEC2.wsdl</wsdlLocation>
                                 </wsdlOption>
                                 <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/wsdl/ReporteeElementListEC.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/wsdl/ReporteeElementListEC2.wsdl</wsdl>
                                     <extraargs>
                                         <extraarg>-autoNameResolution</extraarg>
                                         <extraarg>-p</extraarg>
                                         <extraarg>no.altinn.reporteeelementlistec</extraarg>
                                     </extraargs>
-                                    <wsdlLocation>/wsdl/ReporteeElementListEC.wsdl</wsdlLocation>
+                                    <wsdlLocation>/wsdl/ReporteeElementListEC2.wsdl</wsdlLocation>
                                 </wsdlOption>
                                 <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/wsdl/IntermediaryInboundExternalEC.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/wsdl/IntermediaryInboundExternalEC2Single.wsdl</wsdl>
                                     <extraargs>
                                         <extraarg>-autoNameResolution</extraarg>
                                         <extraarg>-p</extraarg>
                                         <extraarg>no.altinn.intermediaryinboundec</extraarg>
                                     </extraargs>
-                                    <wsdlLocation>/wsdl/IntermediaryInboundExternalEC.wsdl</wsdlLocation>
+                                    <wsdlLocation>/wsdl/IntermediaryInboundExternalEC2Single.wsdl</wsdlLocation>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
@@ -168,7 +168,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -177,8 +176,6 @@
                     <excludePackageNames>no.altinn.*:com.microsoft.*</excludePackageNames>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
-
 </project>

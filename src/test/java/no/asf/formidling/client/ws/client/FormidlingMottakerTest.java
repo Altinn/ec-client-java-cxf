@@ -5,7 +5,7 @@ import no.altinn.brokerserviceexternalec.BrokerServiceAvailableFileList;
 import no.altinn.brokerserviceexternalec.BrokerServiceAvailableFileStatus;
 import no.altinn.receiptexternalec.Receipt;
 import no.altinn.receiptexternalec.ReceiptStatusEnum;
-import no.asf.formidling.client.config.ECClientConfig;
+import no.asf.formidling.client.config.EC2ClientConfig;
 import no.asf.formidling.client.vo.SearchCriteria;
 import no.asf.formidling.client.vo.SecurityCredentials;
 import no.asf.formidling.client.vo.ServiceCode;
@@ -34,15 +34,15 @@ import static org.junit.Assert.fail;
 /**
  * Created by shjellvi on 20.03.2017.
  */
-@ContextConfiguration(classes = {ECClientConfig.class})
+@ContextConfiguration(classes = {EC2ClientConfig.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class FormidlingMottakerTest {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private BrokerECClient brokerECClient;
+    private BrokerEC2Client brokerEC2Client;
 
-    private ReceiptECClient receiptECClient;
+    private ReceiptEC2Client receiptEC2Client;
 
     private SecurityCredentials mottakerCredentials;
 
@@ -75,9 +75,9 @@ public class FormidlingMottakerTest {
         serviceCode = new ServiceCode(properties.getProperty("formidling.altinn.externalservicecode"),
                 Integer.parseInt(properties.getProperty("formidling.altinn.externalserviceeditioncode")));
 
-        brokerECClient = new BrokerECClient(mottakerCredentials, serviceCode);
+        brokerEC2Client = new BrokerEC2Client(mottakerCredentials, serviceCode);
 
-        receiptECClient = new ReceiptECClient(mottakerCredentials);
+        receiptEC2Client = new ReceiptEC2Client(mottakerCredentials);
     }
 
     /**
@@ -95,7 +95,7 @@ public class FormidlingMottakerTest {
              * Steg 1: Finn tilgjengelige filer for nedlasting.
              */
             SearchCriteria criteria = new SearchCriteria(BrokerServiceAvailableFileStatus.UPLOADED, null, null);
-            BrokerServiceAvailableFileList brokerServiceAvailableFileList = brokerECClient.getAvailableFiles(criteria);
+            BrokerServiceAvailableFileList brokerServiceAvailableFileList = brokerEC2Client.getAvailableFiles(criteria);
 
             assertThat(brokerServiceAvailableFileList, is(notNullValue()));
 
@@ -114,13 +114,13 @@ public class FormidlingMottakerTest {
             /**
              * Steg 2: Last ned fil.
              */
-            DataHandler dataHandler = brokerECClient.downloadFile(downloadFileReference);
+            byte[] dataHandler = brokerEC2Client.downloadFile(downloadFileReference);
 
             assertThat(dataHandler, is(notNullValue()));
             log.info("Downloaded file " + downloadFileReference);
 
-            ByteArrayOutputStream buffOS = new ByteArrayOutputStream();
-            dataHandler.writeTo(buffOS);
+            ByteArrayOutputStream buffOS = new ByteArrayOutputStream(dataHandler.length);
+            buffOS.write(dataHandler,0, dataHandler.length);
 
             assertThat(buffOS.size(), greaterThan(0));
 
@@ -137,7 +137,7 @@ public class FormidlingMottakerTest {
             Integer subReceiptId = recentAvailableFile.getReceiptID();
             assertThat(subReceiptId, is(notNullValue()));
 
-            Receipt receipt = receiptECClient.updateReceipt(subReceiptId, ReceiptStatusEnum.OK, null, null,
+            Receipt receipt = receiptEC2Client.updateReceipt(subReceiptId, ReceiptStatusEnum.OK, null, null,
                     "Formidling mottatt og verifisert ok av " + properties.getProperty("avgiver.entityusername"), null);
             assertThat(receipt, notNullValue());
             log.info("Receipt updated: " + receipt.getReceiptId() + receipt.getReceiptText().getValue());
@@ -145,7 +145,7 @@ public class FormidlingMottakerTest {
             /**
              * Steg 4: bekreft fil nedlastet ok.
              */
-            brokerECClient.confirmDownloaded(downloadFileReference);
+            brokerEC2Client.confirmDownloaded(downloadFileReference);
 
             log.info("Confirmed download of file " + downloadFileReference);
 

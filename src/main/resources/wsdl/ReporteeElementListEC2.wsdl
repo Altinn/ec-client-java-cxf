@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions name="ReporteeElementListEC2SF" targetNamespace="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+    <wsp:Policy wsu:Id="CustomBinding_IReporteeElementListEC2_policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:TransportToken>
+                            <wsp:Policy>
+                                <!-- <sp:HttpToken/> -->
+                            </wsp:Policy>
+                        </sp:TransportToken>
+                        <sp:AlgorithmSuite>
+                            <wsp:Policy>
+                                <sp:Basic256/>
+                            </wsp:Policy>
+                        </sp:AlgorithmSuite>
+                        <sp:Layout>
+                            <wsp:Policy>
+                                <sp:Strict/>
+                            </wsp:Policy>
+                        </sp:Layout>
+                        <sp:IncludeTimestamp/>
+                    </wsp:Policy>
+                </sp:TransportBinding>
+                <sp:EndorsingSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:SecureConversationToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                            <wsp:Policy>
+                                <mssp:MustNotSendCancel xmlns:mssp="http://schemas.microsoft.com/ws/2005/07/securitypolicy"/>
+                                <sp:BootstrapPolicy>
+                                    <wsp:Policy>
+                                        <sp:SignedParts>
+                                            <sp:Body/>
+                                            <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                            <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                        </sp:SignedParts>
+                                        <sp:EncryptedParts>
+                                            <sp:Body/>
+                                        </sp:EncryptedParts>
+                                        <sp:TransportBinding>
+                                            <wsp:Policy>
+                                                <sp:TransportToken>
+                                                    <wsp:Policy>
+                                                        <!-- <sp:HttpToken/> -->
+                                                    </wsp:Policy>
+                                                </sp:TransportToken>
+                                                <sp:AlgorithmSuite>
+                                                    <wsp:Policy>
+                                                        <sp:Basic256/>
+                                                    </wsp:Policy>
+                                                </sp:AlgorithmSuite>
+                                                <sp:Layout>
+                                                    <wsp:Policy>
+                                                        <sp:Strict/>
+                                                    </wsp:Policy>
+                                                </sp:Layout>
+                                                <sp:IncludeTimestamp/>
+                                            </wsp:Policy>
+                                        </sp:TransportBinding>
+                                        <sp:EndorsingSupportingTokens>
+                                            <wsp:Policy>
+                                                <sp:X509Token sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                                                    <wsp:Policy>
+                                                        <sp:RequireThumbprintReference/>
+                                                        <sp:WssX509V3Token10/>
+                                                    </wsp:Policy>
+                                                </sp:X509Token>
+                                                <sp:SignedParts>
+                                                    <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
+                                                </sp:SignedParts>
+                                            </wsp:Policy>
+                                        </sp:EndorsingSupportingTokens>
+                                        <sp:Wss11>
+                                            <wsp:Policy>
+                                                <sp:MustSupportRefThumbprint/>
+                                            </wsp:Policy>
+                                        </sp:Wss11>
+                                        <sp:Trust10>
+                                            <wsp:Policy>
+                                                <sp:MustSupportIssuedTokens/>
+                                                <sp:RequireClientEntropy/>
+                                                <sp:RequireServerEntropy/>
+                                            </wsp:Policy>
+                                        </sp:Trust10>
+                                    </wsp:Policy>
+                                </sp:BootstrapPolicy>
+                            </wsp:Policy>
+                        </sp:SecureConversationToken>
+                    </wsp:Policy>
+                </sp:EndorsingSupportingTokens>
+                <sp:Wss11 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy/>
+                </sp:Wss11>
+                <sp:Trust10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:MustSupportIssuedTokens/>
+                        <sp:RequireClientEntropy/>
+                        <sp:RequireServerEntropy/>
+                    </wsp:Policy>
+                </sp:Trust10>
+                <wsaw:UsingAddressing/>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/Imports">
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd0" namespace="http://www.altinn.no/services/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd2" namespace="http://www.altinn.no/services/common/fault/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd3" namespace="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd4" namespace="http://schemas.altinn.no/services/serviceEntity/2010/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd5" namespace="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd6" namespace="http://schemas.altinn.no/services/ServiceEngine/Workflow/2010/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd7" namespace="http://schemas.altinn.no/services/altinnservice/2010/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd8" namespace="http://schemas.altinn.no/services/ServiceEngine/Correspondence/2010/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd9" namespace="http://schemas.altinn.no/services/serviceEntity/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd10" namespace="http://schemas.altinn.no/services/altinnservice/2018/02"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd11" namespace="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2018/02"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd12" namespace="http://schemas.altinn.no/services/Archive/ReporteeArchive/2009/10"/>
+            <xsd:import schemaLocation="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?xsd=xsd13" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="IReporteeElementListEC2_Test_InputMessage">
+        <wsdl:part name="parameters" element="q1:Test" xmlns:q1="http://www.altinn.no/services/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_Test_OutputMessage">
+        <wsdl:part name="parameters" element="q2:TestResponse" xmlns:q2="http://www.altinn.no/services/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_Test_AltinnFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q3:AltinnFault" xmlns:q3="http://www.altinn.no/services/common/fault/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_DeleteReporteeElementEC_InputMessage">
+        <wsdl:part name="parameters" element="tns:DeleteReporteeElementEC"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_DeleteReporteeElementEC_OutputMessage">
+        <wsdl:part name="parameters" element="tns:DeleteReporteeElementECResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_DeleteReporteeElementEC_AltinnFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q4:AltinnFault" xmlns:q4="http://www.altinn.no/services/common/fault/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetCorrespondenceListForArchiveRefEC_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetCorrespondenceListForArchiveRefEC"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetCorrespondenceListForArchiveRefEC_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetCorrespondenceListForArchiveRefECResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetCorrespondenceListForArchiveRefEC_AltinnFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q5:AltinnFault" xmlns:q5="http://www.altinn.no/services/common/fault/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetCorrespondenceListForReporteeEC_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetCorrespondenceListForReporteeEC"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetCorrespondenceListForReporteeEC_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetCorrespondenceListForReporteeECResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetCorrespondenceListForReporteeEC_AltinnFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q6:AltinnFault" xmlns:q6="http://www.altinn.no/services/common/fault/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetFormSetElementsEC_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetFormSetElementsEC"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetFormSetElementsEC_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetFormSetElementsECResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetFormSetElementsEC_AltinnFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q7:AltinnFault" xmlns:q7="http://www.altinn.no/services/common/fault/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetFormSetDataEC_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetFormSetDataEC"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetFormSetDataEC_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetFormSetDataECResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetFormSetDataEC_AltinnFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q8:AltinnFault" xmlns:q8="http://www.altinn.no/services/common/fault/2009/10"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetReporteeElementListEC_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetReporteeElementListEC"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetReporteeElementListEC_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetReporteeElementListECResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IReporteeElementListEC2_GetReporteeElementListEC_AltinnFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q9:AltinnFault" xmlns:q9="http://www.altinn.no/services/common/fault/2009/10"/>
+    </wsdl:message>
+    <wsdl:portType name="IReporteeElementListEC2">
+        <wsdl:documentation>&lt;summary&gt;
+            Service contract for the ReporteeElementList service exposed to end user systems for enterprise certificate.
+            Used to handle elements, both active and archived.
+            &lt;/summary&gt;</wsdl:documentation>
+        <wsdl:operation name="Test">
+            <wsdl:input wsaw:Action="http://www.altinn.no/services/2009/10/IAltinnContractBase/Test" message="tns:IReporteeElementListEC2_Test_InputMessage"/>
+            <wsdl:output wsaw:Action="http://www.altinn.no/services/2009/10/IAltinnContractBase/TestResponse" message="tns:IReporteeElementListEC2_Test_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://www.altinn.no/services/2009/10/IAltinnContractBase/TestAltinnFaultFault" name="AltinnFaultFault" message="tns:IReporteeElementListEC2_Test_AltinnFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="DeleteReporteeElementEC">
+            <wsdl:documentation>&lt;summary&gt;
+                Deletes a Reportee Element.
+                &lt;/summary&gt;
+                &lt;param name="userName"&gt;
+                User name is the relevant user name for the enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="password"&gt;
+                System password is the password for the corresponding enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="reporteeElementCode"&gt;
+                A unique identifier for a Reportee Element prefixed with the element origination type - mandatory parameter
+                Altinn 1, active: A1E
+                Altinn 1, archived: A1A
+                Altinn 2, active: A2E
+                Altinn 2, archived: A2A
+                &lt;/param&gt;</wsdl:documentation>
+            <wsdl:input wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/DeleteReporteeElementEC" message="tns:IReporteeElementListEC2_DeleteReporteeElementEC_InputMessage"/>
+            <wsdl:output wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/DeleteReporteeElementECResponse" message="tns:IReporteeElementListEC2_DeleteReporteeElementEC_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/DeleteReporteeElementECAltinnFaultFault" name="AltinnFaultFault" message="tns:IReporteeElementListEC2_DeleteReporteeElementEC_AltinnFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetCorrespondenceListForArchiveRefEC">
+            <wsdl:documentation>&lt;summary&gt;
+                Retrieves a list of correspondences using the operation GetReporteeElementList.
+                Creates an SearchBE object to search for all correspondences with a given archive reference.
+                Each correspondence may refer to an archive reference.
+                &lt;/summary&gt;
+                &lt;param name="userName"&gt;
+                User name is the relevant user name for the enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="password"&gt;
+                System password is the password for the corresponding enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="reportee"&gt;
+                Reportee SSN (11 digits)/Org Number (9 digits) to retrieve correspondences for. - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="archiveReference"&gt;
+                Archive reference to retrieve correspondences for. - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="fromDate"&gt;
+                If specified, all results must have LastChangedDate greater than the FromDate - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="toDate"&gt;
+                If specified, all results must have LastChangedDate less than the specified value. - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="languageID"&gt;
+                Localization Language (English 1033, Bokmål 1044, Nynorsk 2068) to get titles in - mandatory parameter
+                &lt;/param&gt;
+                &lt;returns&gt;
+                The list of results from the database
+                &lt;/returns&gt;</wsdl:documentation>
+            <wsdl:input wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetCorrespondenceListForArchiveRefEC" message="tns:IReporteeElementListEC2_GetCorrespondenceListForArchiveRefEC_InputMessage"/>
+            <wsdl:output wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetCorrespondenceListForArchiveRefECResponse" message="tns:IReporteeElementListEC2_GetCorrespondenceListForArchiveRefEC_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetCorrespondenceListForArchiveRefECAltinnFaultFault" name="AltinnFaultFault" message="tns:IReporteeElementListEC2_GetCorrespondenceListForArchiveRefEC_AltinnFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetCorrespondenceListForReporteeEC">
+            <wsdl:documentation>&lt;summary&gt;
+                Retrieves a list of correspondences using the method internal GetReporteeElements.
+                &lt;/summary&gt;
+                &lt;remarks&gt;
+                Creates a SearchBE object to search for all correspondences for a given reportee.
+                &lt;/remarks&gt;
+                &lt;param name="userName"&gt;
+                User name is the relevant user name for the enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="password"&gt;
+                System password is the password for the corresponding enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="reportee"&gt;
+                Identifies a person or organization - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="fromDate"&gt;
+                If specified, all results must have LastChangedDate greater than the FromDate - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="toDate"&gt;
+                If specified, all results must have LastChangedDate less that the specified value. - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="languageID"&gt;
+                Localization Language (English 1033, Bokmål 1044, Nynorsk 2068) to get titles in - mandatory parameter
+                &lt;/param&gt;
+                &lt;returns&gt;
+                The list of results from the database
+                &lt;/returns&gt;</wsdl:documentation>
+            <wsdl:input wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetCorrespondenceListForReporteeEC" message="tns:IReporteeElementListEC2_GetCorrespondenceListForReporteeEC_InputMessage"/>
+            <wsdl:output wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetCorrespondenceListForReporteeECResponse" message="tns:IReporteeElementListEC2_GetCorrespondenceListForReporteeEC_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetCorrespondenceListForReporteeECAltinnFaultFault" name="AltinnFaultFault" message="tns:IReporteeElementListEC2_GetCorrespondenceListForReporteeEC_AltinnFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetFormSetElementsEC">
+            <wsdl:documentation>&lt;summary&gt;
+                Retrieves the elements belonging to a ReporteeElement(main form, sub forms and binary attachments)
+                &lt;/summary&gt;
+                &lt;param name="userName"&gt;
+                User name is the relevant user name for the enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="password"&gt;
+                System password is the password for the corresponding enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="reporteeElementID"&gt;
+                Identifier for a Reportee Element - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="languageID"&gt;
+                Localization Language (English 1033, Bokmål 1044, Nynorsk 2068) to get titles in - mandatory parameter
+                &lt;/param&gt;
+                &lt;returns&gt;
+                A list of FormSetElementBE objects
+                &lt;/returns&gt;</wsdl:documentation>
+            <wsdl:input wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetFormSetElementsEC" message="tns:IReporteeElementListEC2_GetFormSetElementsEC_InputMessage"/>
+            <wsdl:output wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetFormSetElementsECResponse" message="tns:IReporteeElementListEC2_GetFormSetElementsEC_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetFormSetElementsECAltinnFaultFault" name="AltinnFaultFault" message="tns:IReporteeElementListEC2_GetFormSetElementsEC_AltinnFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetFormSetDataEC">
+            <wsdl:documentation>&lt;summary&gt;
+                Gets all xml form data belonging to a ReporteeElement
+                &lt;/summary&gt;
+                &lt;param name="userName"&gt;
+                User name is the relevant user name for the enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="password"&gt;
+                System password is the password for the corresponding enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="reporteeElementID"&gt;
+                Identifier for a Reportee Element - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="languageID"&gt;
+                Localization Language (English 1033, Bokmål 1044, Nynorsk 2068) to get titles in - mandatory parameter
+                &lt;/param&gt;
+                &lt;returns&gt;
+                A list of the xml form data for FormSetElementBE entity; each entity correspondence to a
+                MainForm or a SubForm or an Attachment
+                &lt;/returns&gt;</wsdl:documentation>
+            <wsdl:input wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetFormSetDataEC" message="tns:IReporteeElementListEC2_GetFormSetDataEC_InputMessage"/>
+            <wsdl:output wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetFormSetDataECResponse" message="tns:IReporteeElementListEC2_GetFormSetDataEC_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetFormSetDataECAltinnFaultFault" name="AltinnFaultFault" message="tns:IReporteeElementListEC2_GetFormSetDataEC_AltinnFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetReporteeElementListEC">
+            <wsdl:documentation>&lt;summary&gt;
+                Returns a list of active and archived elements in Altinn.
+                &lt;/summary&gt;
+                &lt;param name="userName"&gt;
+                User name is the relevant user name for the enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="password"&gt;
+                System password is the password for the corresponding enterprise certificate user - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="searchBE"&gt;
+                The business entity SearchBE provides parameters for filtering
+                the results that is to be returned from the method. - mandatory parameter
+                &lt;/param&gt;
+                &lt;param name="languageID"&gt;
+                Localization Language (English 1033, Bokmål 1044, Nynorsk 2068) to get titles in - mandatory parameter
+                &lt;/param&gt;
+                &lt;returns&gt;
+                The list of results from the databases.
+                &lt;/returns&gt;</wsdl:documentation>
+            <wsdl:input wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetReporteeElementListEC" message="tns:IReporteeElementListEC2_GetReporteeElementListEC_InputMessage"/>
+            <wsdl:output wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetReporteeElementListECResponse" message="tns:IReporteeElementListEC2_GetReporteeElementListEC_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetReporteeElementListECAltinnFaultFault" name="AltinnFaultFault" message="tns:IReporteeElementListEC2_GetReporteeElementListEC_AltinnFaultFault_FaultMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CustomBinding_IReporteeElementListEC2" type="tns:IReporteeElementListEC2">
+        <wsp:PolicyReference URI="#CustomBinding_IReporteeElementListEC2_policy"/>
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="Test">
+            <soap12:operation soapAction="http://www.altinn.no/services/2009/10/IAltinnContractBase/Test" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AltinnFaultFault">
+                <soap12:fault name="AltinnFaultFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="DeleteReporteeElementEC">
+            <soap12:operation soapAction="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/DeleteReporteeElementEC" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AltinnFaultFault">
+                <soap12:fault name="AltinnFaultFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetCorrespondenceListForArchiveRefEC">
+            <soap12:operation soapAction="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetCorrespondenceListForArchiveRefEC" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AltinnFaultFault">
+                <soap12:fault name="AltinnFaultFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetCorrespondenceListForReporteeEC">
+            <soap12:operation soapAction="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetCorrespondenceListForReporteeEC" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AltinnFaultFault">
+                <soap12:fault name="AltinnFaultFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetFormSetElementsEC">
+            <soap12:operation soapAction="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetFormSetElementsEC" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AltinnFaultFault">
+                <soap12:fault name="AltinnFaultFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetFormSetDataEC">
+            <soap12:operation soapAction="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetFormSetDataEC" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AltinnFaultFault">
+                <soap12:fault name="AltinnFaultFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetReporteeElementListEC">
+            <soap12:operation soapAction="http://www.altinn.no/services/ServiceEngine/ReporteeElementList/2010/10/IReporteeElementListEC/GetReporteeElementListEC" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AltinnFaultFault">
+                <soap12:fault name="AltinnFaultFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="ReporteeElementListEC2SF">
+        <wsdl:port name="CustomBinding_IReporteeElementListEC2" binding="tns:CustomBinding_IReporteeElementListEC2">
+            <soap12:address location="https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc"/>
+            <wsa10:EndpointReference>
+                <wsa10:Address>https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc</wsa10:Address>
+            </wsa10:EndpointReference>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

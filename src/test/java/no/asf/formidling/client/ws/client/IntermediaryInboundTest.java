@@ -1,7 +1,7 @@
 package no.asf.formidling.client.ws.client;
 
 import no.altinn.intermediaryinboundec.ReceiptExternalBE;
-import no.asf.formidling.client.config.ECClientConfig;
+import no.asf.formidling.client.config.EC2ClientConfig;
 import no.asf.formidling.client.vo.SecurityCredentials;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -21,7 +21,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
-@ContextConfiguration(classes = {ECClientConfig.class})
+@ContextConfiguration(classes = {EC2ClientConfig.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class IntermediaryInboundTest {
 
@@ -29,7 +29,7 @@ public class IntermediaryInboundTest {
 
     private SecurityCredentials avgiverCredentials;
 
-    private IntermediaryInboundExternalECClient inboundExternalECClient;
+    private IntermediaryInboundExternalEC2Client inboundExternalEC2Client;
 
     @Before
     public void setup() {
@@ -49,7 +49,7 @@ public class IntermediaryInboundTest {
                 properties.getProperty("avgiver.entitypassword"),
                 properties.getProperty("avgiver.alias"));
 
-        inboundExternalECClient = new IntermediaryInboundExternalECClient(avgiverCredentials);
+        inboundExternalEC2Client = new IntermediaryInboundExternalEC2Client(avgiverCredentials);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class IntermediaryInboundTest {
         int serviceEdition = 1;
         String dataFormatId = "3881";
         int dataFormatVersion = 34642;
-        ReceiptExternalBE receiptExternalBE = inboundExternalECClient.sendFormTaskShipment(reportee, externalShipmentReference, serviceCode,
+        ReceiptExternalBE receiptExternalBE = inboundExternalEC2Client.sendFormTaskShipment(reportee, externalShipmentReference, serviceCode,
         serviceEdition, dataFormatId, dataFormatVersion, endUserSystemReference, formData);
         assertThat(receiptExternalBE.getReceiptStatusCode().value(), is("OK"));
     }
