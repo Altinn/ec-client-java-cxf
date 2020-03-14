@@ -4,8 +4,8 @@
 
 |Nr|Dokumentnavn|Forklaring|
 |--|--------|---|
-|1|https://altinn.github.io/docs/guides/sluttbrukersystem/ |Implementasjonsguide for sluttbrukersystemer|
-|2|https://altinn.github.io/docs/guides/tjenesteeier/      |Implementasjonsguide for tjenesteeier|
+|1|https://altinn.github.io/docs/api/datasystem/ |Implementasjonsguide for sluttbrukersystemer|
+|2|https://altinn.github.io/docs/api/tjenesteeiere      |Implementasjonsguide for tjenesteeier|
 
 ### Definisjoner
 
@@ -22,17 +22,28 @@
 ## Innledning
 Dette er dokumentasjon for en Java referanseklient som integrerer med Altinn formidlingstjenesten. Formidlingstjenesten er tilgjengelig som et sett av webservicer. Java klienten har til hensikt å gi et enkelt eksempel på hvordan integrasjon mellom et sluttbrukersystem og Altinn formidlingstjenesten kan gjøres. Siden fokus er på bruk av Altinn webservices søkes det å unngå bruk av tredjeparts bibliotek og rammeverk som ikke er direkte relevant for integrasjonen. Det legges dessuten vekt på å gi informasjon av teknisk karakter som kan være av verdi for en utvikler av sluttbrukersystem som skal integreres mot Altinn sin webservice.
 
-Altinn formidlingstjenesten har i likhet med øvrige webservices som Altinn tilbyr 3 ulike nivå sikkerhet (ref /1/ avsnitt 5.1 og 8.3):
+Altinn formidlingstjenesten har i likhet med øvrige webservices som Altinn tilbyr, 3 ulike nivå sikkerhet (ref /1/ avsnitt 5.1 og 8.3):
 1. **Basic** (SOAP 1.1) Tradisjonell web service
 2. **WS-Security** (SOAP 1.2 med WS-Security username token) Støtte for nye web service standarder WS*.
 3. **Enterprise Certificate** (SOAP 1.2 med WS-Security X.509 token) Støtte for nye web standarder WS*. Sertifikat ligger i SOAP headeren mens brukernavn og passord ligger i meldingen.
 
 I dette dokumentet beskrives integrasjon mot Altinn webservice basert på det høyeste sikkerhetsnivå: nivå 3 Enterprise Certificate.
 
-Selv om det er formidlingstjenestene som er hovedfokus for denne klienten, har vi utvidet klienten med metoder for å sende inn innsendingstjenester til Altinn. Årsaken er at klienten kan da benyttes som eksempel som utvikler i Java. 
+Selv om det er formidlingstjenestene som er hovedfokus for denne klienten, har vi utvidet klienten med metoder for å sende inn innsendingstjenester til Altinn. Årsaken er at klienten da kan benyttes som eksempel for dem som utvikler i Java. 
+
+### EC2-oppdatering
+Våren 2020 ble Java referanseklienten oppdatert til å støtte nye EC2-endepunkter. I store trekk ble følgende endringer gjort:
+1) Endepunktsadressene ble oppdatert til å gå mot nye EC2-endepunkt.
+2) Alle klasser, variabler, metoder og filer med "EC" i navnet fikk erstattet "EC" med "EC2" i navnet.
+3) Metoden BrokerEC2Client.downloadFile returnerer ikke lenger type DataHandler, men byte[]. Koden er endret for å håndtere dette.
+4) Alle wsdl-er oppdatert med nye tilsvarende wsdl-er fra EC2-endepunkt.
+5) Nødvendige modifikasjoner er gjort på wsdl-er for å få konvertering fra wsdl til javaklasser til å fungere.
+6) Wsdl-en IntermediaryInboudExternalEC2.wsdl er slettet da det kun er IntermediaryInboudExternalEC2Single.wsdl som brukes.
+7) Wsdl for ReceiptExternal bruker nå ReceiptExternalEC2Single.wsdl da dette var nødvendig for få modifisert riktig del av wsdl-en.
+8) Versjon av cxf er oppdatert i .pom-fil til å være versjon 3.3.5 som støtter EC2 og TLS1.2.
 
 ## Teknisk guide
-
+Under følger en oversikt over de tekniske avhengighetene som må være på plass for å kunne få satt opp Java referanseklienten. Det anbefales å lese gjennom hele guiden grundig, før man går i gang med implementasjon. 
 ### Java Cryptography Extension
 Altinn bruker en type kryptering som går ut over det som standard Java installasjon tilbyr. Det er derfor nødvendig å laste ned en utvidelse til Java installasjonen som gjør det mulig med ubegrenset styrke på kryptering. Avhengig av Java versjon kan den nødvendige utvidelse lastes ned fra www.oracle.com:
 
@@ -40,16 +51,39 @@ Altinn bruker en type kryptering som går ut over det som standard Java installa
 * Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 7 Download
 * Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8 Download
 
-Nedlastingen er en zip fil som inneholder to jar filer, local_policy.jar og US_export_policy.jar. Disse må erstatte tilsvarende filer i lib\security katalogen for **både** JRE og JDK katalogen, for eksempel:
+Nedlastingen er en zip fil som inneholder to jar filer, local_policy.jar og US_export_policy.jar. Disse må erstatte tilsvarende filer i lib\security\policy\unlimited katalogen for **både** JRE og JDK katalogen, for eksempel:
 
-* C:\Program Files\Java\jdk1.8.0_121\jre\lib\security
-* C:\Program Files\Java\jre1.8.0_121\lib\security
+* C:\Program Files\Java\jdk1.8.0_121\jre\lib\security\policy\unlimited
+* C:\Program Files\Java\jre1.8.0_121\lib\security\policy\unlimited
 
 ### Enterprise Certificate
-Gitt nivå 3 for sikkerhet er det en forutsetning for tilgang til Altinn formidlingstjenesten at man har et "Enterprise Certificate" for virksomheten. Dette kan for eksempel være utgitt av Commfides eller BuyPass. I dette eksempel er det tatt utgangspunkt i sertifikat på format pkcs12 (file suffix *.p12). 
+Gitt nivå 3 for sikkerhet er det en forutsetning for tilgang til Altinn formidlingstjenesten at man har et "Enterprise Certificate" for virksomheten. Dette kan for eksempel være utgitt av Commfides eller BuyPass. I denne referanseklienten er det tatt utgangspunkt i sertifikat på format pkcs12 (file suffix *.p12). 
 
-Man kan ikke bruke ÆØÅ i aliasene/filnavnene.
+Man har tidligere hatt trøbbel med bruk av ÆØÅ i aliasene/filnavnene til sertifikatene, men etter oppsett med cxf versjon 3.3.5, ser dette nå ut til å fungere. Det kan likevel være greit å være obs på hvis man får problemer med sertifikatene. 
 
+#### Teste og endre sertifikater
+Det kan være litt utfordrende å få importert sertifikatene og få dem til å fungere riktig mot klienten. Typiske utfordringer er at sertifikatene er ugyldige, eller navneproblemer som problemet med ÆØÅ nevnt over. Av spesiell interesse er attributtene _valid from_, _valid to_ og _friendly name_. Med en sertifikatfil og tilhørende passord kan man bruke flere verktøy til å bekrefte at sertifikatet er gyldig eller endre på deler av sertifikatet.     
+
+Følgende kommando kan for eksempel brukes for å sjekke om sertifikatet er gyldig. Java keytool verktøyet finnes under "%JAVA_HOME\bin%":
+
+![Keytool certInfo_screenshot](images/GetCertificate_info_keytool.PNG)
+
+Java keytool kan også brukes til å omskrive et sertifikat fra en form til en annen. For eksempel sette eller endre _friendly name_ (aka. alias):
+
+![Keytool updateAlias_screenshot](images/UpdateAlias_keytool.PNG)
+
+En annen mulighet er å importere sertifikatet på lokal Windows PC, og gjøre endringene derfra. Gjør da følgende:
+1) Åpne Microsoft management console __mmc__. I mmc, velg _File_->_add/remove snap ins_.
+2) Finn _Certificates_ i lista og velg _My user account_. Trykk _finish_ og _OK_ for å legge til.
+3) Du vil nå få en mappe til venstre som heter _Certificates_. For å importere nytt sertifikat, høyreklikk på _Personal_ (under _Certificates_-mappa)->_All tasks_->_Import_.
+4) I importguiden velg store location _Local machine_ og trykk neste. Last så opp ønsket sertifikat. 
+5) Trykk _next_ og skriv inn sertifikatets passord. Huk av for _Include all extended properties_. 
+6) På neste side velger du _Automatically select the certificate stored(...)_. Trykk _Finish_.
+7) Sertifikatet legges nå til under _Personal_-mappa. Ved å trykke på _Certificates_ under _Personal_ får man opp en oversikt over alle sertifikatene man har lagt til. Her kan man lese ut _Friendly Name_ og _Expiration date_.
+8) Ved å dobbeltklikke på ønsket sertifikat og velge _Details_ kan man endre og lese ut noen av egenskapene, som f.eks _Friendly Name_.  
+ 
+__Merk__: For å få testene i javaklienten til å fungere, må de importerte sertifikatenes egenskaper matche egenskaper for avgiver og mottaker som er satt opp i konfigurasjonsfilene i javaklienten, under _test\resources\properties_. Et eksempel her er "Friendly Name" som tilsvarer "alias" i konfigurasjonsfilen. 
+ 
 ### SoapUI
 Under arbeid med en ny integrasjon mot Altinn formidlingstjenesten kan det være et nyttig første steg å gjøre noen enklere tester for å se at man oppnår kontakt med tjenesten og at den tildelte testbruker har de nødvendige tilganger til den formidlingstjenesten man skal bruke. Til dette formål kan verktøyet [SoapUI](https://www.soapui.org/) brukes. Gratisversjonen av SoapUI er tilstrekkelig i denne sammenheng.
 
@@ -75,49 +109,51 @@ For formidlingstjenesten er det først og fremst webservices som er beskrevet i 
 
 |Webservice|Beskrivelse|
 |----------|-----------|
-|BrokerServiceExternalEC.InitiateBrokerService|Initialisering av formidlingstjenesten.|
-|BrokerServiceExternalEC.GetAvailableFiles|Hent ut tilgjengelige filer fra formidlingstjenesten.|
-|BrokerServiceExternalEC.ConfirmDownloaded|Bekrefte at fil er nedlastet fullstendig.|
-|BrokerServiceExternalECStreamed.UploadFileStreamed|Opplasting av filer til formidlingstjenesten.|
-|BrokerServiceExternalECStreamed.DownloadFileStreamed|Nedlasting av filer fra formidlingstjenesten.|
+|BrokerServiceExternalEC2.InitiateBrokerService|Initialisering av formidlingstjenesten.|
+|BrokerServiceExternalEC2.GetAvailableFiles|Hent ut tilgjengelige filer fra formidlingstjenesten.|
+|BrokerServiceExternalEC2.ConfirmDownloaded|Bekrefte at fil er nedlastet fullstendig.|
+|BrokerServiceExternalEC2Streamed.UploadFileStreamed|Opplasting av filer til formidlingstjenesten.|
+|BrokerServiceExternalEC2Streamed.DownloadFileStreamed|Nedlasting av filer fra formidlingstjenesten.|
 
 I tillegg er følgende webservices relevant for å hente ut eller oppdatere kvittering fra formidlingstjenesten. Beskrevet i /1/ avsnitt 6.4:
 
 |Webservice|Beskrivelse|
 |----------|-----------|
-|ReceiptExternalEC.GetReceiptV2|Hente kvittering fra formidlingtjenesten.|
-|ReceiptExternalEC.GetReceiptListV2|Hente alle kvitteringer tilhørende en kvitteringstype og/eller fra et gitt tidsrom|
-|ReceiptExternalEC.UpdateReceipt|Oppdatere en kvittering, for eksempel ved mottak av data fra formidlingstjenesten.|
+|ReceiptExternalEC2.GetReceiptV2|Hente kvittering fra formidlingstjenesten.|
+|ReceiptExternalEC2.GetReceiptListV2|Hente alle kvitteringer tilhørende en kvitteringstype og/eller fra et gitt tidsrom|
+|ReceiptExternalEC2.UpdateReceipt|Oppdatere en kvittering, for eksempel ved mottak av data fra formidlingstjenesten.|
 
 I tillegg til formidlingstjenester, er klienten utvidet med kall for å hente meldinger (Correspondence) fra Altinn og sende inn innsendingstjenester (skjemaer) til Altinn. Til dette benyttes følgende webservicer:
 
 |Webservice|Beskrivelse|
 |----------|-----------|
-|ReporteeElementListEC.GetReporteeElementListEC|Henter en liste med elementer fra arbeidsliste og arkiv.|
-|CorrespondenceExternalEC.GetCorrespondenceForEndUserSystemsEC|Hente detaljer for en spesifikk melding|
-|IntermediaryInboundExternalEC.SubmitFormTaskEC|Sende et skjemasett til Altinn|
+|ReporteeElementListEC2.GetReporteeElementListEC|Henter en liste med elementer fra arbeidsliste og arkiv.|
+|CorrespondenceExternalEC2.GetCorrespondenceForEndUserSystemsEC|Hente detaljer for en spesifikk melding|
+|IntermediaryInboundExternalEC2.SubmitFormTaskEC|Sende et skjemasett til Altinn|
 
 
 ### WSDL filer
 
 Wsdl for de nevnte tjenester er tilgjengelig på følgende URI:
 
-- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalEC.svc?wsdl
-- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalECStreamed.svc?wsdl
-- https://tt02.altinn.no/IntermediaryExternal/ReceiptExternalEC.svc?wsdl
-- https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC.svc
-- https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC.svc
-- https://tt02.altinn.no/IntermediaryExternal/IntermediaryInboundExternalEC.svc
+- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalEC2.svc?wsdl
+- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalEC2Streamed.svc?wsdl
+- https://tt02.altinn.no/IntermediaryExternal/ReceiptExternalEC2.svc?wsdl
+- https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc
+- https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc
+- https://tt02.altinn.no/IntermediaryExternal/IntermediaryInboundExternalEC2.svc
 
 De angitte adresser er til Altinn testmiljø tt02. For produksjon byttes tt02.altinn.no med www.altinn.no.
 
 Altinn webservices er utviklet med Microsoft .Net teknologi. Ved arbeid med Java klient mot disse webservices er det avdekket noen tekniske problemer som kan omgås ved å modifisere wsdl filen for Altinn tjenester. Den medfølgende Java referanseklienten har derfor kopier av Altinn wsdl filer med noen mindre endringer.
 
-Ett slikt wsdl problem er en konflikt i forbindelse med hvordan WS-SecurityPolicy «RequireDerivedKeys» håndteres på. I Altinn konfigurasjonen er denne attributten satt til true. Dersom informasjonen om «RequireDerivedKeys» utelates fra klienten, fungerer likevel integrasjonen tilsynelatende helt fint, og konklusjonen er derfor at dette elementet ikke har noen praktisk effekt. Dessuten er også "HttpToken" kommentert ut fra wsdl kopi med samme begrunnelse som for "RequireDerivedKeys".
+Endringene som er gjort på wsdl-ene går i hovedsak på å kommentere ut deler av wsdl-en som har gitt konflikt i konverteringen. For eksempel opplevde man en konflikt med hvordan WS-SecurityPolicy «HttpToken» ble håndtert. Dersom man kommenterer ut «HttpToken» i wsdl-ene som brukes i klienten , fungerer likevel integrasjonen tilsynelatende fint, og konklusjonen er derfor at dette elementet ikke har noen praktisk effekt, og derfor kan kommenteres ut uten å begrense funksjonaliteten. 
 
-Under arbeid med apache-cxf klienten var det nødvendig å redigere wsdl filen for tjenesten ReceiptExternalEC fordi verktøyet wsdl2java ga feilmelding "Two declarations cause a collision in the ObjectFactory class." Den duplikate deklarasjon ble da utkommentert.
+Under arbeid med apache-cxf klienten var det også nødvendig å redigere wsdl-filen for tjenesten ReceiptExternalEC2 fordi verktøyet wsdl2java ga feilmelding "Two declarations cause a collision in the ObjectFactory class." De duplikate deklarasjonene ble da utkommentert.
 
-Det er ikke ønskelig å måtte gjøre de beskrevne tilpassninger av wsdl filene for å få Java klienten til å fungere, men inntil de tekniske forskjeller mellom .Net og Java blir rettet opp i eventuelle fremtidige versjoner av rammeverkene så er det dessverre nødvendig.
+Tidligere har man også hatt problemer med WS-SecurityPolicy "RequireDerivedKeys", men siden de nye EC2 wsdl-ene ikke er satt opp med denne policyen, er dette ikke lenger et problem.    
+
+Det er ikke ønskelig å måtte gjøre de beskrevne tilpasninger av wsdl-filene for å få Java klienten til å fungere, men inntil de tekniske forskjellene mellom .Net og Java blir rettet opp i eventuelle fremtidige versjoner av rammeverkene, er det dessverre nødvendig.
 
 ## Bruk av formidlingstjenesten
 Tjenestene som inngår i formidlingstjenesten brukes i en bestemt rekkefølge for både avgiver og mottaker. Dette kan illustreres med et sekvensdiagram som følger:
@@ -189,7 +225,7 @@ For avgiver returneres formidlingens hovedkvittering.
 ## Java referanseklient
 
 #### Verktøy/teknologi
-Java referanseklienten er basert på seneste versjon av [Apache CXF](http://cxf.apache.org/) rammeverket som gir støtte for relevante standarder for integrasjon mot Altinn webservices. Programmeringsspråket er Java versjon 8, men det er ikke brukt noen nye java features spesifikt for denne java versjon i koden så eldre versjoner skulle også kunne brukes like godt.
+Java referanseklienten er basert på seneste versjon av [Apache CXF](http://cxf.apache.org/) rammeverket (versjon 3.3.5 eller nyere) som gir støtte for relevante standarder for integrasjon mot Altinn webservices. Programmeringsspråket er Java versjon 8, men det er ikke brukt noen nye Java features spesifikt for denne Java versjon i koden så eldre versjoner skulle også kunne brukes like godt.
 
 Videre er følgende verktøy/teknologi brukt:
 - Maven versjon 3, for bygging
@@ -200,13 +236,13 @@ Videre er følgende verktøy/teknologi brukt:
 - IntelliJ IDEA Community edition, Java IDE
 
 #### Generert kode
-En viktig del av Apache CXF rammeverket er verktøyet *wsdl2java* som brukes til å generere java klasser basert på wsdl filene for formidlingstjenesten. De genererte klasser kan etter bygging med maven finnes i katalogen /target/generated-sources under prosjektets rotkatalog. Følgende kommando vil bygge hele prosjektet, deriblant kjøre *wsdl2java*, men uten å kjøre noen tester:
+En viktig del av Apache CXF rammeverket er verktøyet *wsdl2java* som brukes til å generere javaklasser basert på wsdl filene for formidlingstjenesten. De genererte klasser kan etter bygging med maven finnes i katalogen /target/generated-sources under prosjektets rotkatalog. Følgende kommando vil bygge hele prosjektet, deriblant kjøre *wsdl2java*, men uten å kjøre noen tester:
 ```
 mvn clean install -DskipTests
 ```
-
+__NB!__ For å få satt opp klienten mot nye EC2-endepunkt, er det nødvendig med versjon 3.3.5 eller nyere av Apache CXF rammeverket.
 #### Referanseklientens grensesnitt
-I referanseklienten brukes ikke de automatisk genererte klasser direkte for tilgang til formidlingstjenesten, men isteden via klasser i pakken no.asf.formidling.client.ws.client. Klassen **BrokerECClient** i denne pakken danner et forenklet grensesnitt mot hele formidlingstjenesten og klassen **ReceiptECClient** et tilsvarende forenklet grensesnitt mot Altinn tjenester for kvitteringer. Pakken no.asf.formidling.client.vo inneholder *value objects* klasser som holder data som er input eller output til tjenestene i de to nevnte Client klasser. Det anbefales å se på javadoc dokumentasjonen for disse pakker.
+I referanseklienten brukes ikke de automatisk genererte klasser direkte for tilgang til formidlingstjenesten, men isteden via klasser i pakken no.asf.formidling.client.ws.client. Klassen **BrokerEC2Client** i denne pakken danner et forenklet grensesnitt mot hele formidlingstjenesten og klassen **ReceiptEC2Client** et tilsvarende forenklet grensesnitt mot Altinn tjenester for kvitteringer. Pakken no.asf.formidling.client.vo inneholder *value objects* klasser som holder data som er input eller output til tjenestene i de to nevnte Client klasser. Det anbefales å se på javadoc dokumentasjonen for disse pakker.
 
 #### Javadoc
 Ved å kjøre følgende maven kommando fra prosjektets rotkatalog får man generert javadoc dokumentasjon for referanseklienten som etterpå kan finnes under katalogen /target/site/apidocs/index.html:
@@ -217,11 +253,11 @@ mvn javadoc:javadoc
 #### Tester
 Typisk bruk av de to sentrale klasser i referanseklienten er illustrert i testklasser som finnes i pakken no.asf.formidling.client.ws.client i katalogen /src/test/java. Referanseklienten har en testbruker for hver av rollene avgiver og mottaker og disse er beskrevet i properties filer i katalogen /src/test/resources/properties. 
 
-Klassen **FormidlingAvgiverTest** tester opplasting av en fil til formidlingstjenesten. Ettersom initiateService og uploadFile alltid gjøres etter hverandre og returverdi fra den første er input til den neste så er dette forenklet med ett kall til metoden uploadFile i klassen BrokerECClient.
+Klassen **FormidlingAvgiverTest** tester opplasting av en fil til formidlingstjenesten. Ettersom initiateService og uploadFile alltid gjøres etter hverandre og returverdi fra den første er input til den neste så er dette forenklet med ett kall til metoden uploadFile i klassen BrokerEC2Client.
 
-Klassen **FormidlingMottakerTest** tester alle stegene beskrevet ovenfor som utføres i sekvens av en mottaker av en formidling. Det innebærer kall til metoder i BrokerECClient og ReceiptECClient i riktig rekkefølge. Disse testene vil feile dersom det ikke finnes noen filer å hente ned så man bør eventuelt kjøre FormidlingAvgiverTest først.
+Klassen **FormidlingMottakerTest** tester alle stegene beskrevet ovenfor som utføres i sekvens av en mottaker av en formidling. Det innebærer kall til metoder i BrokerEC2Client og ReceiptEC2Client i riktig rekkefølge. Disse testene vil feile dersom det ikke finnes noen filer å hente ned så man bør eventuelt kjøre FormidlingAvgiverTest først.
 
-Klassen **ReceiptECTest** tester kvitteringstjenestene for avgiver. Den bruker en fast kvitteringsid i testen og det burde virke ok ettersom kvitteringer i Altinn ikke slettes.
+Klassen **ReceiptEC2Test** tester kvitteringstjenestene for avgiver. Den bruker en fast kvitteringsid i testen og det burde virke ok ettersom kvitteringer i Altinn ikke slettes.
 
 #### Konfigurasjon
 Klassen **EC2ClientConfig** i pakken no.asf.formidling.client.config brukes som spring *ContextConfiguration*. Det betyr at den setter opp **spring context** ved oppstart av testene. Dette er angitt i toppen av testklassene med annotation:
@@ -232,7 +268,7 @@ Alternativt kan tradisjonell xml basert spring konfigurasjon brukes (cxf.xml).
 
 Under katalogen src/main/resources/properties finnes følgende xml konfigurasjonsfiler:
 - formidling-tjeneste, Servicekode/versjon for formidlingstjenesten
-- formidling-uri, URI addresser for Altinn webservices
+- formidling-uri, URI adresser for Altinn webservices
 - logging-properties, setter nivå på logging for rammeverk og klientkode
 
 Tilsvarende under katalogen src/test/resoures/properties finnes følgende xml konfigurasjonsfiler:
@@ -249,7 +285,7 @@ En viktig del av spring konfigurasjon er instansiering av **Bus** hvor det sette
 I tillegg setter EC2ClientConfig opp *Bus* med logging av alle webserice meldinger (LoggingFeature prettyLogging=true). Følgende er et utsnitt fra loggen ved kjøring av test som viser at interceptors har lagt til headers attributtene *Connection Keep-Alive* og *Cookie*:
 ```
 ID: 3
-Address: https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalECStreamed.svc
+Address: https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalEC2Streamed.svc
 Encoding: UTF-8
 Http-Method: POST
 Content-Type: application/soap+xml; action="http://schemas.xmlsoap.org/ws/2005/02/trust/RST/SCT"
@@ -257,4 +293,3 @@ Headers: {Accept=[*/*], Connection=[Keep-Alive], Cookie=[BIGipServerai2v2-tt02-i
 Payload: <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
 ```
 Den samme *Cookie* brukes altså ved flere etterfølgende meldinger til webservice inntil en ny inngående melding med header attributten *Set-Cookie* dukker opp. Ettersom referanseklienten lagrer denne *Cookie* i minnet for en thread så kan det skape problemer å blande tjenestekall med flere virksomhetsbrukere i en og samme test. Et kall til Altinn webservice med ugyldig sikkerhetskonfigurasjon for en virksomhetsbruker vil føre til at denne bruker stenges ute fra Altinn i et visst tidsrom (1 time).
-
