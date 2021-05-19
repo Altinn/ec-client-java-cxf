@@ -44,6 +44,7 @@ Våren 2020 ble Java referanseklienten oppdatert til å støtte nye EC2-endepunk
 
 ## Teknisk guide
 Under følger en oversikt over de tekniske avhengighetene som må være på plass for å kunne få satt opp Java referanseklienten. Det anbefales å lese gjennom hele guiden grundig, før man går i gang med implementasjon. 
+
 ### Java Cryptography Extension
 Altinn bruker en type kryptering som går ut over det som standard Java installasjon tilbyr. Det er derfor nødvendig å laste ned en utvidelse til Java installasjonen som gjør det mulig med ubegrenset styrke på kryptering. Avhengig av Java versjon kan den nødvendige utvidelse lastes ned fra www.oracle.com:
 
@@ -89,9 +90,9 @@ Under arbeid med en ny integrasjon mot Altinn formidlingstjenesten kan det være
 
 Til et slikt første steg bruker man da Altinn tjenestene på sikkerhetsnivå *basic*. Man oppretter et nytt prosjekt i SoapUI og starter med å importere wsdl filen for en av tjenestene, ref. /1/ avsnitt 8.3 og etterfølgende oversikt over aktuelle tjenester og wsdl filer. For enkelhets skyld, her er lenker til de relevante wsdl filer for bruk med SoapUI:
 
-- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalBasic.svc?wsdl
-- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalStreamedBasic.svc?wsdl
-- https://tt02.altinn.no/IntermediaryExternal/ReceiptExternalBasic.svc?wsdl
+- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalBasic.svc?singlewsdl
+- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalStreamedBasic.svc?singlewsdl
+- https://tt02.altinn.no/IntermediaryExternal/ReceiptExternalBasic.svc?singlewsdl
 
 Det er viktig å være oppmerksom på at etter import av wsdl fil til sitt SoapUI prosjekt så må URI for hvert service endpoint endres. Man må huske å endre fra **http** til **https**. Av tekniske grunner knyttet til Altinn infrastruktur (load balancing) vil hver wsdl angi service endpoint med feil protokoll.
 
@@ -136,12 +137,12 @@ I tillegg til formidlingstjenester, er klienten utvidet med kall for å hente me
 
 Wsdl for de nevnte tjenester er tilgjengelig på følgende URI:
 
-- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalEC2.svc?wsdl
-- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalEC2Streamed.svc?wsdl
-- https://tt02.altinn.no/IntermediaryExternal/ReceiptExternalEC2.svc?wsdl
-- https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc
-- https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc
-- https://tt02.altinn.no/IntermediaryExternal/IntermediaryInboundExternalEC2.svc
+- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalEC2.svc?singlewsdl
+- https://tt02.altinn.no/ServiceEngineExternal/BrokerServiceExternalEC2Streamed.svc?singlewsdl
+- https://tt02.altinn.no/IntermediaryExternal/ReceiptExternalEC2.svc?singlewsdl
+- https://tt02.altinn.no/ServiceEngineExternal/ReporteeElementListEC2.svc?singlewsdl
+- https://tt02.altinn.no/ServiceEngineExternal/CorrespondenceExternalEC2.svc?singlewsdl
+- https://tt02.altinn.no/IntermediaryExternal/IntermediaryInboundExternalEC2.svc?singlewsdl
 
 De angitte adresser er til Altinn testmiljø tt02. For produksjon byttes tt02.altinn.no med www.altinn.no.
 
